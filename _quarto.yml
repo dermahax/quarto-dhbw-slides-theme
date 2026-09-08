@@ -1,0 +1,13 @@
+# Nur für example.qmd in diesem Repo. Ein Vorlesungsprojekt bekommt seine
+# eigene _quarto.yml (siehe README).
+project:
+  title: "quarto-dhbw-slides"
+
+lang: de
+
+format:
+  dhbw-slides-revealjs: default
+
+dhbw:
+  author: "M. Bergau"
+  chapters: ["Beispiel"]

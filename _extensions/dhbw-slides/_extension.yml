@@ -1,0 +1,35 @@
+title: DHBW Slides
+author: M. Bergau
+version: 1.1.0
+quarto-required: ">=1.4.0"
+contributes:
+  formats:
+    revealjs:
+      # ---- Geometrie ----
+      width: 1920
+      height: 1080
+      margin: 0.045
+      min-scale: 0.2
+      max-scale: 2.0
+      center: false
+
+      # ---- Bedienung ----
+      controls: true
+      progress: true
+      slide-number: false   # eigene Seitenzahl in der Fusszeile
+      menu: false
+      hash: true
+      transition: slide
+
+      # ---- Aussehen ----
+      theme: [default, dhbw.scss]
+      highlight-style: tango
+
+      # ---- eine einzelne, offline lauffaehige HTML-Datei ----
+      embed-resources: true
+      html-math-method:
+        method: katex
+
+      filters:
+        - dhbw.lua
+      include-after-body: dhbw-chrome.html
