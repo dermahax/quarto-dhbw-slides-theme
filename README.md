@@ -40,21 +40,6 @@ Zur Not tut es auch Kopieren von Hand: den Ordner `_extensions/dhbw-slides/`
 aus diesem Repo nach `_extensions/` im Projekt legen. Dann fehlt allerdings
 die Quellangabe für `quarto update`.
 
-### Eine von Hand kopierte Extension ablösen
-
-Liegt im Projekt schon eine Kopie ohne Owner-Ordner (`_extensions/dhbw-slides/`),
-zuerst diese entfernen – sonst liegen zwei Extensions mit demselben Namen
-nebeneinander und Quarto meldet ein mehrdeutiges Format:
-
-```
-quarto remove dhbw-slides
-quarto add dermahax/quarto-dhbw-slides-theme
-quarto render 01-…qmd                  # Probe
-```
-
-An `_quarto.yml` ändert sich nichts: `format: dhbw-slides-revealjs` und der
-Block `dhbw:` bleiben gleich, Quarto findet das Format auch im Owner-Unterordner.
-
 ### Aktualisieren
 
 Nach einer Änderung hier im Repo (Version in `_extensions/dhbw-slides/_extension.yml`
@@ -116,6 +101,7 @@ Schreiben ist `quarto preview 01-mengen.qmd` angenehmer.
 | `dhbw.chapter`   | Nummer des aktiven Kapitels (1-basiert). Optional.           |
 | `subtitle`       | Untertitel auf der Titelfolie (z. B. Name der Vorlesung).    |
 
+<<<<<<< HEAD
 ## Organisatorisches-Folie
 
 Der Shortcode `{{< orga >}}` baut aus einem Datenblock in der `_quarto.yml`
@@ -229,6 +215,8 @@ cd quarto-dhbw-slides-theme
 git remote add origin git@github.com:dermahax/quarto-dhbw-slides-theme.git
 git push -u origin main
 ```
+=======
+>>>>>>> 7737fcbeddfa5fdbe2bde72054f43117fc40bef3
 
 Die Versionsnummer in `_extensions/dhbw-slides/_extension.yml` bei Änderungen
 anheben; `quarto update` zeigt sie an.
