@@ -351,3 +351,19 @@ html.print-pdf .meta .pg { display: none; }
 .reveal .cols.grid > .col { text-align: center; font-size: 0.85em;
   display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
 .reveal .cols.grid > .col > p { margin: 6px 0; }
+
+/* ---- Organisatorisches: Steckbrief-Tabelle aus dem Shortcode {{< orga >}} ---- */
+.reveal table.orga {
+  border-collapse: collapse; width: 100%; margin: 6px 0 0; background: none;
+  font-size: 33px; table-layout: fixed;
+}
+.reveal table.orga th, .reveal table.orga td {
+  text-align: left; vertical-align: top; border: none;
+  border-bottom: 1.5px solid #dadde0; padding: 16px 0;
+}
+.reveal table.orga th { width: 22%; color: var(--red); font-weight: 700; padding-right: 24px; }
+.reveal table.orga tr:last-child th, .reveal table.orga tr:last-child td { border-bottom: none; }
+.reveal table.orga td > :first-child { margin-top: 0; }
+.reveal table.orga td > :last-child  { margin-bottom: 0; }
+.reveal table.orga ul { margin: 0 0 0 1.1em; }
+.reveal table.orga li { margin: .1em 0; }

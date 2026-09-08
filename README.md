@@ -1,4 +1,4 @@
-# quarto-dhbw-slides
+# quarto-dhbw-slides-theme
 
 Quarto-Format-Extension für reveal.js-Folien im DHBW-Look: Blöcke im
 Beamer-Stil, Chevron-Kapitelleiste, Fußzeile mit Seitenzahl, KaTeX offline,
@@ -19,12 +19,12 @@ diesen Ordner aus dem Repo holt. Alle Befehle im Projektordner ausführen
 ### Neu installieren
 
 ```
-quarto add <github-user>/quarto-dhbw-slides
+quarto add dermahax/quarto-dhbw-slides-theme
 ```
 
 Quarto lädt das ZIP des Default-Branches (kein Git-Login, das Repo muss
 öffentlich sein), fragt einmal „Do you trust the authors?“ und legt die
-Extension unter `_extensions/<github-user>/dhbw-slides/` ab. Prüfen mit
+Extension unter `_extensions/dermahax/dhbw-slides/` ab. Prüfen mit
 
 ```
 quarto list extensions
@@ -33,7 +33,7 @@ quarto list extensions
 Ist das Repo privat oder du bist offline, geht ein lokaler Klon als Quelle:
 
 ```
-quarto add ../quarto-dhbw-slides        # Pfad zum Klon
+quarto add ../quarto-dhbw-slides-theme        # Pfad zum Klon
 ```
 
 Zur Not tut es auch Kopieren von Hand: den Ordner `_extensions/dhbw-slides/`
@@ -48,7 +48,7 @@ nebeneinander und Quarto meldet ein mehrdeutiges Format:
 
 ```
 quarto remove dhbw-slides
-quarto add <github-user>/quarto-dhbw-slides
+quarto add dermahax/quarto-dhbw-slides-theme
 quarto render 01-…qmd                  # Probe
 ```
 
@@ -61,7 +61,7 @@ Nach einer Änderung hier im Repo (Version in `_extensions/dhbw-slides/_extensio
 anheben, committen, pushen) in jedem Projekt:
 
 ```
-quarto update <github-user>/quarto-dhbw-slides
+quarto update dermahax/quarto-dhbw-slides-theme
 ```
 
 Das überschreibt die Projektkopie mit dem aktuellen Stand. Änderungen direkt
@@ -116,6 +116,44 @@ Schreiben ist `quarto preview 01-mengen.qmd` angenehmer.
 | `dhbw.chapter`   | Nummer des aktiven Kapitels (1-basiert). Optional.           |
 | `subtitle`       | Untertitel auf der Titelfolie (z. B. Name der Vorlesung).    |
 
+## Organisatorisches-Folie
+
+Der Shortcode `{{< orga >}}` baut aus einem Datenblock in der `_quarto.yml`
+eine Steckbrief-Folie (rote Labels links, Werte rechts). Die Daten stehen
+unter `dhbw.orga`, jedes Feld ist optional; Markdown in den Werten ist erlaubt:
+
+```yaml
+dhbw:
+  orga:
+    inhalt:
+      - "Algebraische Strukturen: Mengen, Relationen, Abbildungen"
+      - "Aussagen- und Prädikatenlogik"
+    zeitraum: "01.10.2026 – 20.12.2026"
+    pruefung: "**Klausur** (Modul T4INF1002, 5 ECTS)"
+    links:
+      - { text: "Folien und Übungen", url: "https://github.com/…" }
+      - { text: "Moodle-Kurs", url: "https://moodle.…" }
+    kontakt: "Vorname Name · vorname.name@dhbw-loerrach.de"
+    extra:                                   # weitere Zeilen, optional
+      - { label: "Übungen", value: "freitags, 14:00 Uhr" }
+```
+
+Dazu eine Datei `00-orga.qmd` (die 0 lässt in der Chevron-Leiste kein Kapitel
+aktiv):
+
+```markdown
+---
+title: "Organisatorisches"
+subtitle: "Name der Vorlesung"
+---
+
+## Organisatorisches
+
+{{< orga >}}
+```
+
+Weitere Orga-Folien (Ablaufplan, Übungsbetrieb …) danach ganz normal mit `##`.
+
 ## Syntax-Spickzettel
 
 Jede Folie beginnt mit `##`. Darunter normales Markdown.
@@ -159,6 +197,7 @@ _extensions/dhbw-slides/
     _extension.yml      Format-Definition (Geometrie, Theme, Filter)
     dhbw.scss           das komplette Theme
     dhbw.lua            schreibt window.DHBW, bindet KaTeX lokal ein
+    orga.lua            Shortcode {{< orga >}} für die Organisatorisches-Folie
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
     logo.png            Quelle für das eingebettete Logo
     katex/              KaTeX 0.16.11 inkl. Schriften
@@ -186,8 +225,8 @@ CDN-Versuchs sind normal und folgenlos.
 Zum ersten Mal:
 
 ```
-cd quarto-dhbw-slides
-git remote add origin git@github.com:<github-user>/quarto-dhbw-slides.git
+cd quarto-dhbw-slides-theme
+git remote add origin git@github.com:dermahax/quarto-dhbw-slides-theme.git
 git push -u origin main
 ```
 
