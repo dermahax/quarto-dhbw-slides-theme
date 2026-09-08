@@ -19,7 +19,7 @@ diesen Ordner aus dem Repo holt. Alle Befehle im Projektordner ausführen
 ### Neu installieren
 
 ```
-quarto add <github-user>/quarto-dhbw-slides-theme
+quarto add dermahax/quarto-dhbw-slides-theme
 ```
 
 Quarto lädt das ZIP des Default-Branches (kein Git-Login, das Repo muss
