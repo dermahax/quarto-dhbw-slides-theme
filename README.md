@@ -11,27 +11,65 @@ nachgezogen — nicht umgekehrt.
 
 ## Installation in einem Vorlesungsprojekt
 
-Im Projektordner (dort, wo `_quarto.yml` liegt):
+Quarto kennt keinen Package-Manager: eine Extension ist ein Ordner unter
+`_extensions/` im Projekt, und `quarto add` ist nur ein Kopierbefehl, der
+diesen Ordner aus dem Repo holt. Alle Befehle im Projektordner ausführen
+(dort, wo `_quarto.yml` liegt).
+
+### Neu installieren
 
 ```
 quarto add <github-user>/quarto-dhbw-slides
 ```
 
-Das kopiert `_extensions/dhbw-slides/` ins Projekt. Später aktualisieren:
+Quarto lädt das ZIP des Default-Branches (kein Git-Login, das Repo muss
+öffentlich sein), fragt einmal „Do you trust the authors?“ und legt die
+Extension unter `_extensions/<github-user>/dhbw-slides/` ab. Prüfen mit
+
+```
+quarto list extensions
+```
+
+Ist das Repo privat oder du bist offline, geht ein lokaler Klon als Quelle:
+
+```
+quarto add ../quarto-dhbw-slides        # Pfad zum Klon
+```
+
+Zur Not tut es auch Kopieren von Hand: den Ordner `_extensions/dhbw-slides/`
+aus diesem Repo nach `_extensions/` im Projekt legen. Dann fehlt allerdings
+die Quellangabe für `quarto update`.
+
+### Eine von Hand kopierte Extension ablösen
+
+Liegt im Projekt schon eine Kopie ohne Owner-Ordner (`_extensions/dhbw-slides/`),
+zuerst diese entfernen – sonst liegen zwei Extensions mit demselben Namen
+nebeneinander und Quarto meldet ein mehrdeutiges Format:
+
+```
+quarto remove dhbw-slides
+quarto add <github-user>/quarto-dhbw-slides
+quarto render 01-…qmd                  # Probe
+```
+
+An `_quarto.yml` ändert sich nichts: `format: dhbw-slides-revealjs` und der
+Block `dhbw:` bleiben gleich, Quarto findet das Format auch im Owner-Unterordner.
+
+### Aktualisieren
+
+Nach einer Änderung hier im Repo (Version in `_extensions/dhbw-slides/_extension.yml`
+anheben, committen, pushen) in jedem Projekt:
 
 ```
 quarto update <github-user>/quarto-dhbw-slides
 ```
 
-Ohne GitHub (oder offline) funktioniert auch ein lokaler Pfad:
+Das überschreibt die Projektkopie mit dem aktuellen Stand. Änderungen direkt
+in einer Projektkopie gehen dabei verloren – Theme-Änderungen deshalb immer
+hier im Repo machen.
 
-```
-quarto add ../quarto-dhbw-slides
-```
-
-oder schlicht: den Ordner `_extensions/dhbw-slides/` ins Projekt kopieren.
 Die Extension wird bewusst **mit** ins Projekt-Repository eingecheckt, damit
-jedes Projekt ohne weitere Schritte baubar bleibt.
+jedes Projekt ohne weitere Schritte und ohne Netz baubar bleibt.
 
 ## Ein neues Projekt aufsetzen
 
