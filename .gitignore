@@ -4,3 +4,4 @@
 !_extensions/**/*.html
 Thumbs.db
 .DS_Store
+/Claude outputs
