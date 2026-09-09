@@ -220,3 +220,9 @@ git push -u origin main
 
 Die Versionsnummer in `_extensions/dhbw-slides/_extension.yml` bei Änderungen
 anheben; `quarto update` zeigt sie an.
+
+## Änderungen
+
+- **1.2.1** – Logo mit transparentem Hintergrund (nur die Rechtecke), damit es auch
+  auf dunklen, vollflächigen Bildfolien sauber aussieht.
+- **1.2.0** – Shortcode `{{< orga >}}`, Bildraster `.cols.grid`, `.qed`.
