@@ -42,7 +42,7 @@ durchnummeriert benennen.
 |-------------------------------|-------------------------------------------------------------|
 | `.block` + `.normal/.example/.alert` mit `data-title` | Beamer-artiger Block         |
 | `.cols` / `.col`              | Spalten nebeneinander                                        |
-| `.cols .equal`                | Spaltenblöcke gleich hoch, unten bündig                      |
+| `.cols .unequal`              | Spaltenblöcke nur so hoch wie ihr Inhalt (Standard ist gleich hoch) |
 | `.stack`                      | Kinder liegen übereinander — Fragmente ersetzen einander     |
 | `.texfig`                     | zentrierte Abbildung, zusammen mit `![](…){.fig}`            |
 | `.hl`                         | Inline-Hervorhebung in DHBW-Rot                              |

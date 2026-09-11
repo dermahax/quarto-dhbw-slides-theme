@@ -152,6 +152,7 @@ Jede Folie beginnt mit `##`. Darunter normales Markdown.
 
 ::: {.cols}  ::: {.col} … :::  ::: {.col} … :::  :::     zwei Spalten
 ::: {.col style="flex:60"}                                 ungleiche Breite
+::: {.cols .unequal}                                       Blöcke nicht gleich hoch
 ::: {.notes} … :::                                         Sprechernotizen (Taste S)
 ::: {.incremental} - … :::                                 Liste Punkt für Punkt
 . . .                                                      Pause
@@ -223,6 +224,8 @@ anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.3.0** – Spaltenblöcke sind standardmäßig gleich hoch; `.cols .equal` ist
+  damit überflüssig (bleibt aber gültig). Neue Ausnahme `.cols .unequal`.
 - **1.2.1** – Logo mit transparentem Hintergrund (nur die Rechtecke), damit es auch
   auf dunklen, vollflächigen Bildfolien sauber aussieht.
 - **1.2.0** – Shortcode `{{< orga >}}`, Bildraster `.cols.grid`, `.qed`.

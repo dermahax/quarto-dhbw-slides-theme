@@ -146,10 +146,19 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
                                 ihren Inhalt und breite Formeln werden beschnitten */
 .reveal .col-52 { flex: 52; } .reveal .col-44 { flex: 44; }
 
-/* ---- gleich hohe Spalten-Blöcke: ::: {.cols .equal} ---- */
-.reveal .cols.equal > .col        { display: flex; flex-direction: column; }
-.reveal .cols.equal > .col > .block,
-.reveal .cols.equal > .col > .stack { flex: 1 1 auto; }
+/* ---- gleich hohe Spalten-Blöcke (Standard) ----
+   Blöcke und Stapel in einer Spalte wachsen bis zur Höhe der höchsten Spalte,
+   der Block schließt also unten bündig ab. Frühere Schreibweise
+   ::: {.cols .equal} bleibt gültig, ist aber nicht mehr nötig.
+   Ausnahme: ::: {.cols .unequal} — jeder Block nur so hoch wie sein Inhalt. */
+.reveal .cols > .col        { display: flex; flex-direction: column; }
+.reveal .cols > .col > .block,
+.reveal .cols > .col > .stack { flex: 1 1 auto; }
+
+/* ---- Opt-out: ::: {.cols .unequal} ---- */
+.reveal .cols.unequal > .col        { display: block; }
+.reveal .cols.unequal > .col > .block,
+.reveal .cols.unequal > .col > .stack { flex: none; }
 
 /* ---- Overlay-Stapel: Fragmente ersetzen einander an derselben Stelle ---- */
 .reveal .stack     { display: grid; }
