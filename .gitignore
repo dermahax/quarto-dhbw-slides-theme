@@ -5,7 +5,8 @@
 Thumbs.db
 .DS_Store
 /Claude outputs
-# gerenderte Übungsblätter
-*.pdf
-*.typ
-*.ipynb
+# gerenderte Übungsblätter (nur im Repo-Wurzelordner; die .typ-Vorlagen
+# unter _extensions/ sind Quelltext und müssen ins Repo)
+/*.pdf
+/*.typ
+/*.ipynb
