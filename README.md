@@ -248,6 +248,7 @@ _extensions/dhbw-slides/
     _extension.yml      Format-Definition (Geometrie, Theme, Filter)
     dhbw.scss           das komplette Theme
     dhbw.lua            schreibt window.DHBW, bindet KaTeX lokal ein
+    dhbw-math.lua       Formeln als TeX-Spans (verhindert Quartos CDN-Loader)
     orga.lua            Shortcode {{< orga >}} für die Organisatorisches-Folie
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
     uebung.lua          Übungsblätter: .loesung, Blöcke, Logo
@@ -267,12 +268,25 @@ Das Logo steckt als Data-URI in `dhbw-chrome.html`. Nach einem Austausch von
 ## Warum KaTeX von Hand geladen wird
 
 Mit `embed-resources: true` verwirft Quarto eine lokale KaTeX-Angabe und
-injiziert einen CDN-Loader — die Folien bräuchten beim Vorführen Internet.
-Deshalb liefert `html-math-method: katex` nur rohes TeX in `<span class="math">`,
-`dhbw.lua` bindet KaTeX aus dem Extension-Ordner ein, und `dhbw-chrome.html`
-rendert die Spans selbst und entfernt danach die Klasse `math`, damit Quartos
-CDN-Renderer nichts mehr findet. Zwei Konsolenfehler des ins Leere laufenden
-CDN-Versuchs sind normal und folgenlos.
+injiziert einen CDN-Loader (der wegen eines Quarto-Fehlers sogar MathJax 2 von
+cdn.jsdelivr.net holt) — die Folien bräuchten beim Vorführen Internet. Deshalb:
+
+- `dhbw-math.lua` (läuft nach Quartos Filtern, `at: post-quarto`) schreibt jede
+  Formel als rohes TeX in `<span class="math inline|display">`. Weil danach kein
+  Formel-Element mehr im Dokument steht, hängt Quarto gar keinen Loader an.
+  Gleichungsnummern aus `{#eq-…}` stehen dann schon als `\tag{…}` im TeX.
+- `dhbw.lua` bindet KaTeX samt Schriften aus dem Extension-Ordner ein.
+- `dhbw-chrome.html` rendert die Spans und alles zwischen `\(…\)` / `\[…\]`.
+
+Die fertige HTML-Datei lädt damit nichts mehr aus dem Netz.
+
+**Scroll-Ansicht.** reveal.js schaltet unter 435 px Fensterbreite automatisch in
+die Scroll-Ansicht (sonst Taste R). Beim Einschalten merkt es sich das
+Folien-HTML, beim Ausschalten schreibt es diese Kopie zurück. War die Kopie
+älter als das KaTeX-Rendern, stünde danach wieder rohes TeX auf den Folien. Das
+passiert z. B. in Moodle („Einbetten“): Das iframe ist beim Laden noch schmal
+und wird erst danach vergrößert. `dhbw-chrome.html` beobachtet deshalb `.slides`
+und rendert neu, sobald reveal.js die Folien austauscht.
 
 ## Veröffentlichen
 
@@ -289,6 +303,10 @@ anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.5.1** – Formeln bleiben gerendert, wenn reveal.js die Scroll-Ansicht
+  verlässt (vorher rohes TeX, u. a. beim Einbetten in Moodle). Kein
+  CDN-Loader mehr: neuer Filter `dhbw-math.lua`, die HTML-Datei lädt nichts
+  mehr aus dem Netz.
 - **1.5.0** – Übungsblätter: neue Formate `dhbw-slides-typst` (PDF) und
   `dhbw-slides-ipynb` (Notebook) mit Logo, `::: {.loesung}` unter jeder Aufgabe
   und Post-Render-Skript `loesungen.ts`, das die Lösungsfassung miterzeugt.

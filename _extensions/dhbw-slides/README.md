@@ -93,6 +93,7 @@ _extensions/dhbw-slides/
     _extension.yml      Format-Definition (Geometrie, Theme, Filter)
     dhbw.scss           das komplette Theme
     dhbw.lua            schreibt window.DHBW, bindet KaTeX lokal ein
+    dhbw-math.lua       Formeln als TeX-Spans (verhindert Quartos CDN-Loader)
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
     uebung.lua          Übungsblätter: .loesung, Blöcke, Logo
     uebung/             Typst-Vorlage der Übungsblätter

@@ -38,11 +38,13 @@
       if (el) el.textContent = CFG.author || '';
     }
 
-    // --- Mathe lokal rendern; danach die Klasse "math" entfernen, damit
-    //     Quartos eigener CDN-Renderer nichts mehr findet. ---
-    function renderMath() {
+    // --- Mathe lokal rendern. dhbw-math.lua liefert rohes TeX in
+    //     <span class="math inline|display">; nach dem Rendern verliert der
+    //     Span die Klasse "math", ein zweiter Aufruf rendert also nichts doppelt. ---
+    function renderMath(root) {
       if (typeof katex === 'undefined') return;
-      var els = Array.prototype.slice.call(document.getElementsByClassName('math'));
+      root = root || document.body;
+      var els = Array.prototype.slice.call(root.getElementsByClassName('math'));
       els.forEach(function (el) {
         if (el.tagName !== 'SPAN') return;
         var tex = el.textContent;
@@ -57,7 +59,7 @@
       });
 
       if (typeof renderMathInElement === 'function') {
-        renderMathInElement(document.body, {
+        renderMathInElement(root, {
           delimiters: [
             { left: '\\[', right: '\\]', display: true },
             { left: '\\(', right: '\\)', display: false }
@@ -78,11 +80,27 @@
       pg.textContent = (i + 1);
     }
 
+    // --- reveal.js ersetzt die Folien gelegentlich durch eine HTML-Kopie von
+    //     vor dem Rendern: Die Scroll-Ansicht (Taste R, automatisch unter
+    //     435 px Breite, z. B. im noch schmalen Moodle-iframe beim Laden)
+    //     merkt sich beim Einschalten slides.innerHTML und schreibt es beim
+    //     Ausschalten zurueck. Danach stuende wieder rohes TeX da - also neu
+    //     rendern, sobald die direkten Kinder von .slides ausgetauscht werden. ---
+    function watchSlides() {
+      var slides = document.querySelector('.reveal .slides');
+      if (!slides || !window.MutationObserver) return;
+      new MutationObserver(function () {
+        renderMath(slides);
+        if (window.Reveal && Reveal.isReady && Reveal.isReady()) Reveal.layout();
+      }).observe(slides, { childList: true });
+    }
+
     function start() {
       CFG = window.DHBW || {};
       buildCrumbs();
       setAuthor();
       renderMath();
+      watchSlides();
       if (window.Reveal && Reveal.on) {
         Reveal.on('ready', function () { updateChrome(); Reveal.layout(); });
         Reveal.on('slidechanged', updateChrome);
