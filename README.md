@@ -139,6 +139,69 @@ subtitle: "Name der Vorlesung"
 
 Weitere Orga-Folien (Ablaufplan, Übungsbetrieb …) danach ganz normal mit `##`.
 
+## Übungsblätter
+
+Übungsblätter entstehen mit derselben Extension als PDF (Typst, in Quarto
+enthalten, kein LaTeX nötig) oder als Jupyter-Notebook für
+Programmieraufgaben: kleines DHBW-Logo und Vorlesung in der Kopfzeile,
+Aufgaben als `##`-Überschriften.
+
+**Eine Datei je Blatt.** Die Lösung steht direkt unter der Aufgabe:
+
+```markdown
+---
+title: "Übungsblatt 1: Einführung"
+subtitle: "Induktion, Gegenbeispiele, Korrektheit"   # optional
+format: dhbw-slides-typst          # PDF;  dhbw-slides-ipynb für ein Notebook
+---
+
+# Teil A: Vollständige Induktion
+
+## Aufgabe 1
+
+Beweisen Sie …
+
+::: {.loesung}
+**Induktionsanfang** …
+:::
+```
+
+**Aufgaben- und Lösungsfassung aus einem `quarto render`.** Dafür einmalig in
+der `_quarto.yml` des Vorlesungsprojekts:
+
+```yaml
+project:
+  post-render: _extensions/dermahax/dhbw-slides/loesungen.ts
+
+dhbw:
+  vorlesung: "Name der Vorlesung"      # Kopfzeile der Übungsblätter
+```
+
+Dann liefert `quarto render Uebungen/ueb-01.qmd`:
+
+| Format              | Aufgaben        | Lösungen                                   |
+|---------------------|-----------------|--------------------------------------------|
+| `dhbw-slides-typst` | `ueb-01.pdf`    | `ueb-01-loesung.pdf` (blaue Lösungskästen) |
+| `dhbw-slides-ipynb` | `ueb-01.ipynb`  | `ueb-01-loesung.ipynb` (Zellen mit Tag `loesung`) |
+
+Ohne das Skript entsteht nur die Aufgabenfassung; zum schnellen Ansehen der
+Lösungen geht auch `quarto render ueb-01.qmd -M loesung:true`.
+
+Die Übungsblätter liegen im Vorlesungsprojekt selbst (z. B. `Uebungen/`), nicht
+in einem eigenen Unterprojekt mit eigener `_quarto.yml` — sonst findet Quarto die
+Extension nicht. Das `format:` im Kopf jeder Datei sorgt dafür, dass sie nicht als
+Folien gerendert werden. Bilder aus `figures/` gehen mit `../figures/…`.
+
+Hinweise:
+
+- Im PDF funktionieren auch die Folienblöcke
+  (`::: {.block .alert data-title="…"}` usw.).
+- Schrift ist Arial (wie die Folien unter Windows); anderes mit `mainfont:`.
+- Notebooks werden nicht ausgeführt. Bei Python-Zellen `jupyter: python3` in den
+  Kopf schreiben. Das Logo steckt als Data-URI im Notebook, es lässt sich also
+  einzeln verschicken.
+- Braucht Quarto ≥ 1.5 (Typst ≥ 0.11).
+
 ## Syntax-Spickzettel
 
 Jede Folie beginnt mit `##`. Darunter normales Markdown.
@@ -176,7 +239,7 @@ Formel oder Fettdruck, den Block als HTML schreiben:
 ````
 
 Alle Elemente einmal zum Ausprobieren: `example.qmd` in diesem Repo
-(`quarto render example.qmd`).
+(`quarto render example.qmd`), für Übungsblätter `example-uebung.qmd`.
 
 ## Aufbau der Extension
 
@@ -187,6 +250,9 @@ _extensions/dhbw-slides/
     dhbw.lua            schreibt window.DHBW, bindet KaTeX lokal ein
     orga.lua            Shortcode {{< orga >}} für die Organisatorisches-Folie
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
+    uebung.lua          Übungsblätter: .loesung, Blöcke, Logo
+    uebung/             Typst-Vorlage der Übungsblätter (Kopf, Titel, Kästen)
+    loesungen.ts        Post-Render-Skript: erzeugt die Lösungsfassungen
     logo.png            Quelle für das eingebettete Logo
     katex/              KaTeX 0.16.11 inkl. Schriften
 ```
@@ -223,6 +289,10 @@ anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.5.0** – Übungsblätter: neue Formate `dhbw-slides-typst` (PDF) und
+  `dhbw-slides-ipynb` (Notebook) mit Logo, `::: {.loesung}` unter jeder Aufgabe
+  und Post-Render-Skript `loesungen.ts`, das die Lösungsfassung miterzeugt.
+  Neuer Schlüssel `dhbw.vorlesung`. Beispiel: `example-uebung.qmd`.
 - **1.4.0** – Neue Klasse `.popup`: schwebendes Overlay über der Folie, absolut
   positioniert (keine Lücke im Fließtext). Allein oder mit `.block` kombinierbar.
   Wird automatisch zum Fragment `.fade-in-then-out`; `.static` schaltet das ab.

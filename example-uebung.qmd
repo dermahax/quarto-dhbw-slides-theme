@@ -1,0 +1,52 @@
+---
+title: "Übungsblatt 0: Beispiel"
+subtitle: "Alle Elemente eines Übungsblatts"
+format: dhbw-slides-typst
+---
+
+Einleitender Text zum Blatt. `quarto render example-uebung.qmd` erzeugt
+`example-uebung.pdf` und – über das Post-Render-Skript – `example-uebung-loesung.pdf`.
+
+# Teil A: Rechnen
+
+## Aufgabe 1: Eine Summe
+
+Zeigen Sie, dass für alle $n \ge 1$ gilt: $\sum_{i=1}^{n} (2i - 1) = n^2$.
+
+::: {.loesung}
+Induktion über $n$. Anfang $n = 1$: $1 = 1^2$. Schritt:
+$\sum_{i=1}^{n+1} (2i-1) = n^2 + 2n + 1 = (n+1)^2$. ∎
+:::
+
+## Aufgabe 2: Aufzählung
+
+a. erster Teil
+b. zweiter Teil
+
+::: {.loesung}
+a. Lösung zum ersten Teil
+b. Lösung zum zweiten Teil
+:::
+
+# Teil B: Blöcke wie auf den Folien
+
+::: {.block .info data-title="Hinweis"}
+Blöcke funktionieren im PDF wie auf den Folien: `.normal`, `.example`,
+`.alert`, `.info`, Titel in `data-title`.
+:::
+
+## Aufgabe 3: Pseudocode
+
+```
+summe(A):
+  s := 0
+  for i := 1 to n:
+    s := s + A[i]
+  return s
+```
+
+Welche Laufzeit hat `summe`?
+
+::: {.loesung}
+$\Theta(n)$: ein Schleifendurchlauf je Element.
+:::

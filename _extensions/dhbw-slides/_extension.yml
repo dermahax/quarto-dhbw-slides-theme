@@ -1,6 +1,6 @@
 title: DHBW Slides
 author: M. Bergau
-version: 1.4.0
+version: 1.5.0
 quarto-required: ">=1.4.0"
 contributes:
   shortcodes:
@@ -35,3 +35,21 @@ contributes:
       filters:
         - dhbw.lua
       include-after-body: dhbw-chrome.html
+
+    # ---- Übungsblätter als PDF (Typst, in Quarto enthalten) ----
+    typst:
+      papersize: a4
+      fontsize: 10.5pt
+      keep-typ: true        # loesungen.lua kompiliert daraus die Lösungsfassung
+      template-partials:
+        - uebung/typst-template.typ
+        - uebung/typst-show.typ
+      filters:
+        - uebung.lua
+
+    # ---- Übungsblätter als Jupyter-Notebook (Programmieraufgaben) ----
+    ipynb:
+      execute:
+        enabled: false      # Notebook unausgeführt ausgeben
+      filters:
+        - uebung.lua

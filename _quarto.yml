@@ -2,6 +2,8 @@
 # eigene _quarto.yml (siehe README).
 project:
   title: "quarto-dhbw-slides"
+  # erzeugt zu example-uebung.qmd auch example-uebung-loesung.pdf
+  post-render: _extensions/dhbw-slides/loesungen.ts
 
 lang: de
 
@@ -11,3 +13,4 @@ format:
 dhbw:
   author: "M. Bergau"
   chapters: ["Beispiel"]
+  vorlesung: "Beispielvorlesung"
