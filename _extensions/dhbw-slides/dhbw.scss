@@ -165,6 +165,34 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .stack > * { grid-area: 1 / 1; }
 
 
+/* ---- Popup: schwebendes Overlay über der Folie ----
+   ::: {.popup} … :::   (dhbw.lua ergänzt .fragment .fade-in-then-out;
+   eigene .fragment-Angabe hat Vorrang, .static = dauerhaft sichtbar)
+   Liegt absolut über dem Inhalt, lässt also keine Lücke im Fließtext.
+   Standardlage: 150px vom linken/rechten Folienrand, 210px von oben.
+   Verschieben per style="top:400px" (oder left/right/width).
+   Kombinierbar mit .block: ::: {.block .info .popup … data-title="Hinweis"} */
+.reveal .slides section .popup {
+  position: absolute;
+  top: 210px;
+  left: 150px;
+  right: 150px;
+  z-index: 20;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+}
+.reveal .slides section .popup:not(.block) {
+  background: #fff;
+  padding: 14px;
+}
+.reveal .slides section .block.popup[data-title]::before { text-align: left; }
+.reveal .popup > :first-child { margin-top: 0; }
+.reveal .popup > :last-child  { margin-bottom: 0; }
+
+
 /* ---- Pseudocode: schlichte Codeblöcke ohne reveal-Rahmen ---- */
 .reveal pre {
   box-shadow: none;

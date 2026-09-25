@@ -44,6 +44,7 @@ durchnummeriert benennen.
 | `.cols` / `.col`              | Spalten nebeneinander                                        |
 | `.cols .unequal`              | Spaltenblöcke nur so hoch wie ihr Inhalt (Standard ist gleich hoch) |
 | `.stack`                      | Kinder liegen übereinander — Fragmente ersetzen einander     |
+| `.popup`                      | schwebendes Overlay (absolut, keine Lücke im Text); erscheint und verschwindet automatisch als Fragment, `.static` = immer sichtbar |
 | `.texfig`                     | zentrierte Abbildung, zusammen mit `![](…){.fig}`            |
 | `.hl`                         | Inline-Hervorhebung in DHBW-Rot                              |
 | `.small`                      | kleinerer Fließtext                                          |

@@ -68,3 +68,17 @@ function Meta(meta)
 
   return meta
 end
+
+-- .popup: ohne eigene Fragment-Angabe automatisch als Fragment, das erscheint
+-- und beim nächsten Schritt wieder verschwindet. Steht schon .fragment dran
+-- (z. B. .fragment .fade-in), bleibt die eigene Angabe; .static = immer sichtbar.
+function Div(el)
+  if not quarto.doc.is_format("revealjs") then return nil end
+  local c = el.classes
+  if not c:includes("popup") or c:includes("static") or c:includes("fragment") then
+    return nil
+  end
+  c:insert("fragment")
+  c:insert("fade-in-then-out")
+  return el
+end

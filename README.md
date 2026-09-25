@@ -101,7 +101,6 @@ Schreiben ist `quarto preview 01-mengen.qmd` angenehmer.
 | `dhbw.chapter`   | Nummer des aktiven Kapitels (1-basiert). Optional.           |
 | `subtitle`       | Untertitel auf der Titelfolie (z. B. Name der Vorlesung).    |
 
-<<<<<<< HEAD
 ## Organisatorisches-Folie
 
 Der Shortcode `{{< orga >}}` baut aus einem Datenblock in der `_quarto.yml`
@@ -153,6 +152,8 @@ Jede Folie beginnt mit `##`. Darunter normales Markdown.
 ::: {.cols}  ::: {.col} … :::  ::: {.col} … :::  :::     zwei Spalten
 ::: {.col style="flex:60"}                                 ungleiche Breite
 ::: {.cols .unequal}                                       Blöcke nicht gleich hoch
+::: {.popup} … :::                                        Overlay, erscheint und verschwindet
+::: {.popup .static} … :::                                Overlay, dauerhaft sichtbar
 ::: {.notes} … :::                                         Sprechernotizen (Taste S)
 ::: {.incremental} - … :::                                 Liste Punkt für Punkt
 . . .                                                      Pause
@@ -216,14 +217,15 @@ cd quarto-dhbw-slides-theme
 git remote add origin git@github.com:dermahax/quarto-dhbw-slides-theme.git
 git push -u origin main
 ```
-=======
->>>>>>> 7737fcbeddfa5fdbe2bde72054f43117fc40bef3
 
 Die Versionsnummer in `_extensions/dhbw-slides/_extension.yml` bei Änderungen
 anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.4.0** – Neue Klasse `.popup`: schwebendes Overlay über der Folie, absolut
+  positioniert (keine Lücke im Fließtext). Allein oder mit `.block` kombinierbar.
+  Wird automatisch zum Fragment `.fade-in-then-out`; `.static` schaltet das ab.
 - **1.3.0** – Spaltenblöcke sind standardmäßig gleich hoch; `.cols .equal` ist
   damit überflüssig (bleibt aber gültig). Neue Ausnahme `.cols .unequal`.
 - **1.2.1** – Logo mit transparentem Hintergrund (nur die Rechtecke), damit es auch
