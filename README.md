@@ -319,6 +319,10 @@ anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.6.1** – Keine graue Schrift mehr auf hellem Grund: Bildunterschriften
+  (`.src`, `figcaption`), Untertitel (`h2 small`, Titelfolie), Titel der
+  `.example`-Blöcke und `.small` stehen jetzt in `--ink` (fast schwarz).
+  Grau bleibt für Frametitel, Linien und Rahmen.
 - **1.6.0** – Darstellungsformen ohne Kasten: `.leitfrage` (Einstiegsfrage),
   `.sec` (Abschnitt mit roter Überschrift), `.merke` (Merksatz mit Randstrich),
   `.cols .vs` (Spalten mit Trennlinie); Definitionslisten erscheinen als

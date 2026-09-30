@@ -1,6 +1,9 @@
 /*-- scss:defaults --*/
 
 // ===== DHBW-Farben =====
+// Grau ist für Linien, Rahmen und die Frametitel gedacht. Fließtext,
+// Bildunterschriften, Untertitel usw. stehen in --ink (fast schwarz):
+// graue Schrift auf weißem Grund ist am Beamer schlecht lesbar.
 $dhbw-red:        #E0001A;
 $dhbw-darkred:    #961620;
 $dhbw-gray:       #58636C;
@@ -65,7 +68,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 }
 .reveal h2 small {
   display: block;
-  color: var(--lightgray);
+  color: var(--ink);
   font-weight: 400;
   font-size: 33px;
   margin-top: 3px;
@@ -73,7 +76,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 
 .reveal p, .reveal li { line-height: 1.35; }
 .reveal .lead  { font-size: 33px; }
-.reveal .small { font-size: 28.5px; color: #2a2a2a; }
+.reveal .small { font-size: 28.5px; color: var(--ink); }
 .reveal .small p:last-child { margin-bottom: 0; }
 .reveal .mt    { margin-top: 18px; }
 
@@ -98,7 +101,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
   color: var(--red);
 }
 .reveal .block.example              { background: var(--ex-body); }
-.reveal .block.example[data-title]::before { background: var(--ex-title); color: var(--gray); }
+.reveal .block.example[data-title]::before { background: var(--ex-title); color: var(--ink); }
 .reveal .block.alert                { background: var(--al-body); }
 .reveal .block.alert[data-title]::before   { background: var(--al-title); color: var(--darkred); }
 .reveal .block.info                 { background: var(--inf-body); }
@@ -119,7 +122,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .block > .bb { padding: 16.5px 22.5px; font-size: 31.5px; }
 .reveal .block.normal  > .bt { background: var(--blk-title); color: var(--red); }
 .reveal .block.normal  > .bb { background: var(--blk-body); }
-.reveal .block.example > .bt { background: var(--ex-title); color: var(--gray); }
+.reveal .block.example > .bt { background: var(--ex-title); color: var(--ink); }
 .reveal .block.example > .bb { background: var(--ex-body); }
 .reveal .block.alert   > .bt { background: var(--al-title); color: var(--darkred); }
 .reveal .block.alert   > .bb { background: var(--al-body); }
@@ -315,7 +318,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .merge-ex { display: flex; align-items: center; gap: 21px; justify-content: center; margin-top: 12px; }
 .reveal .merge-ex .stk { display: flex; flex-direction: column; gap: 3px; }
 .reveal .merge-ex .stk span { font-family: Georgia, serif; font-style: italic; }
-.reveal .merge-ex .arrow { font-size: 36px; color: var(--gray); }
+.reveal .merge-ex .arrow { font-size: 36px; color: var(--ink); }
 
 /* ---- Vergleichstabelle im booktabs-Look ---- */
 .reveal table.cmp { border-collapse: collapse; margin: 9px auto 0; font-size: 31.5px; background: none; }
@@ -340,7 +343,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .coddy-embed figcaption {
   box-sizing: border-box; padding: 7.5px 18px;
   font: 16.5px/1.4 "Helvetica Neue", Arial, sans-serif;
-  color: #64748b; background: #f1f5f9; border-top: 1.5px solid #e2e8f0; text-align: right;
+  color: var(--ink); background: #f1f5f9; border-top: 1.5px solid #e2e8f0; text-align: right;
 }
 .reveal .coddy-embed figcaption a { color: #0077ff; font-weight: 600; text-decoration: none; }
 
@@ -366,7 +369,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .tree rect { fill: #f0f1f2; stroke: var(--gray); stroke-width: 1; }
 .reveal .tree .lbl  { fill: #222; font-family: Georgia, serif; font-style: italic; font-size: 22.5px; text-anchor: middle; }
 .reveal .tree .cost { fill: var(--red); font-family: Georgia, serif; font-style: italic; font-size: 24px; }
-.reveal .tree .cap  { fill: var(--gray); font-family: Georgia, serif; font-style: italic; font-size: 22.5px; text-anchor: middle; }
+.reveal .tree .cap  { fill: var(--ink); font-family: Georgia, serif; font-style: italic; font-size: 22.5px; text-anchor: middle; }
 .reveal .tree line { stroke: var(--gray); stroke-width: 1; }
 .reveal .part text.num { font-family: Georgia, serif; font-style: italic; font-size: 27px; text-anchor: middle; fill: #1c1c1c; }
 .reveal .part .lab { font-family: Georgia, serif; font-style: italic; font-size: 22.5px; text-anchor: middle; fill: var(--red); }
@@ -385,8 +388,8 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal figure img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 .reveal figcaption,
 .reveal .quarto-figure figcaption,
-.reveal .figure-caption { font-size: 0.6em; color: #666; text-align: center; margin-top: 6px; }
-.reveal .src { font-size: 22.5px; color: var(--gray); text-align: center; margin-top: 15px; }
+.reveal .figure-caption { font-size: 0.6em; color: var(--ink); text-align: center; margin-top: 6px; }
+.reveal .src { font-size: 22.5px; color: var(--ink); text-align: center; margin-top: 15px; }
 
 /* ---- Hervorhebung ---- */
 .reveal .hl { color: var(--red); }
@@ -424,7 +427,7 @@ html.print-pdf        .reveal .slides section#title-slide { height: 1080px; }
 }
 .reveal #title-slide .subtitle {
   order: -1;                      /* über dem roten Kasten, wie „Teil I“ im Beamer-Original */
-  color: var(--gray);
+  color: var(--ink);
   font-size: 33px;
   font-weight: 400;
   margin: 0 0 18px 42px;
