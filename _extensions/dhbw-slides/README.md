@@ -48,6 +48,11 @@ durchnummeriert benennen.
 | `.cols .unequal`              | Spaltenblöcke nur so hoch wie ihr Inhalt (Standard ist gleich hoch) |
 | `.stack`                      | Kinder liegen übereinander — Fragmente ersetzen einander     |
 | `.popup`                      | schwebendes Overlay (absolut, keine Lücke im Text); erscheint und verschwindet automatisch als Fragment, `.static` = immer sichtbar |
+| `.leitfrage` (+ `data-title`) | Einstiegsfrage, groß, ohne Kasten, mit Linie darunter        |
+| `.sec` (+ `data-title`)       | Abschnitt ohne Kasten: rote Überschrift mit Linie             |
+| `.merke` (+ `data-title`)     | Merksatz mit rotem Randstrich                                |
+| `.cols .vs`                   | Spalten mit Trennlinie statt Kästen (Gegenüberstellung)      |
+| Definitionsliste              | `Begriff` / `: Erklärung` wird zur zweispaltigen Steckbrief-Tabelle |
 | `.texfig`                     | zentrierte Abbildung, zusammen mit `![](…){.fig}`            |
 | `.hl`                         | Inline-Hervorhebung in DHBW-Rot                              |
 | `.small`                      | kleinerer Fließtext                                          |

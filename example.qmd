@@ -123,6 +123,54 @@ Ungleiche Breiten über style="flex:60" und style="flex:40" an den Spalten.
 Wichtig: jede Ebene braucht ihr eigenes ::: zum Schließen.
 :::
 
+## Ohne Kasten
+
+::: {.leitfrage data-title="Die Frage"}
+Nicht jeder Inhalt braucht einen Kasten – wie hebt man trotzdem etwas hervor?
+:::
+
+::: {.sec data-title="Abschnitt – .sec"}
+Rote Überschrift mit Linie darunter, der Text steht frei auf der Folie.
+Gut für „Heute“, „Vorgehen“, „Analog“ …
+:::
+
+::: {.merke data-title="Merksatz – .merke"}
+Ein Satz, der hängen bleiben soll: mit rotem Randstrich statt Kasten.
+:::
+
+::: {.notes}
+Faustregel: ein .block pro Folie ist die Regel, zwei die Ausnahme.
+Aufgaben, Definitionen und Warnungen bleiben Blöcke, alles andere kommt
+oft ohne Kasten aus. data-title ist bei allen drei Formen optional.
+:::
+
+## Gegenüberstellung und Steckbrief
+
+::: {.cols .vs}
+::: {.col}
+::: {.sec data-title="Links"}
+`::: {.cols .vs}` trennt die Spalten mit einer Linie statt mit zwei Kästen.
+:::
+:::
+
+::: {.col}
+::: {.sec data-title="Rechts"}
+In jede Spalte ein `.sec` mit Überschrift.
+:::
+:::
+:::
+
+Steckbrief
+: Eine normale Markdown-Definitionsliste wird zur zweispaltigen Tabelle.
+
+Schreibweise
+: Begriff auf eine Zeile, darunter `: Erklärung`.
+
+::: {.notes}
+Beginnt ein Begriff mit „A)“ oder „1.“, hält Pandoc ihn für eine Aufzählung –
+dann die Klammer escapen: `A\) Rechenmaschinen`.
+:::
+
 ## Formeln, Bilder, Code
 
 Im Fließtext: $\Theta(n \log n)$ — einfach in `$…$` setzen.
@@ -189,6 +237,7 @@ Coddy-Editor in Kapitel 04 aus den alten Decks übernommen.
 ::: {.block .normal
      data-title="T"} … :::
 ::: {.cols} ::: {.col} … ::: :::
+::: {.sec data-title="T"} … :::
 . . .        Pause
 $x$   $$x$$   Formel
 [rot]{.hl}

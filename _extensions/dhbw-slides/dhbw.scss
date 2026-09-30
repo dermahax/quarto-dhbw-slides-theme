@@ -193,6 +193,88 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .popup > :last-child  { margin-bottom: 0; }
 
 
+/* ==== Darstellungsformen ohne Kasten ====================================
+   Leichtere Alternativen zu .block. Faustregel: ein .block pro Folie ist
+   die Regel, zwei die Ausnahme.
+     ::: {.leitfrage data-title="Die Frage"}  Einstiegsfrage, groß, ohne Kasten
+     ::: {.sec data-title="Analog"}           Abschnitt mit roter Überschrift
+     ::: {.merke data-title="Fazit"}          ein Merksatz mit rotem Randstrich
+     ::: {.cols .vs}                          Spalten mit Trennlinie
+     Begriff / : Erklärung                    Definitionsliste = Steckbrief
+   (data-title ist jeweils optional.) */
+
+/* ---- Leitfrage ---- */
+.reveal .leitfrage {
+  font-size: 36px;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 6px 0 30px;
+  padding: 0 0 22px;
+  border-bottom: 1.5px solid var(--blk-title);
+}
+.reveal .leitfrage[data-title]::before,
+.reveal .sec[data-title]::before,
+.reveal .merke[data-title]::before {
+  content: attr(data-title);
+  display: block;
+  font-weight: 700;
+  color: var(--red);
+}
+.reveal .leitfrage[data-title]::before {
+  font-size: 24px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* ---- Abschnitt ohne Kasten ---- */
+.reveal .sec { font-size: 31.5px; margin: 18px 0 24px; }
+.reveal .sec[data-title]::before {
+  font-size: 31.5px;
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+  border-bottom: 2.25px solid var(--blk-title);
+}
+.reveal .sec ul, .reveal .sec ol { font-size: inherit; }
+
+/* ---- Merksatz ---- */
+.reveal .merke {
+  font-size: 31.5px;
+  margin: 24px 0 18px;
+  padding: 12px 0 12px 27px;
+  border-left: 7.5px solid var(--red);
+}
+.reveal .merke[data-title]::before { font-size: 31.5px; color: var(--darkred); margin-bottom: 4px; }
+
+.reveal .leitfrage > :first-child, .reveal .sec > :first-child, .reveal .merke > :first-child { margin-top: 0; }
+.reveal .leitfrage > :last-child,  .reveal .sec > :last-child,  .reveal .merke > :last-child  { margin-bottom: 0; }
+
+/* ---- Gegenüberstellung: ::: {.cols .vs} – Spalten mit Trennlinie ---- */
+.reveal .cols.vs > .col + .col { border-left: 2.25px solid var(--blk-title); padding-left: 33px; }
+.reveal .cols.vs > .col > .sec { margin-top: 0; }
+
+/* ---- Steckbrief: jede Definitionsliste als zweispaltige Tabelle ----
+   Begriff
+   : Erklärung
+   Achtung: "A) Text" als Begriff wird zur Aufzählung – dann "A\) Text". */
+.reveal dl {
+  display: grid;
+  grid-template-columns: fit-content(32%) 1fr;
+  margin: 12px 0 18px;
+  font-size: 31.5px;
+}
+.reveal dl > dt, .reveal dl > dd {
+  margin: 0;
+  padding: 13px 0;
+  border-bottom: 1.5px solid var(--blk-title);
+}
+.reveal dl > dt { color: var(--red); font-weight: 700; padding-right: 36px; }
+.reveal dl > dt:last-of-type, .reveal dl > dd:last-of-type { border-bottom: none; }
+.reveal dl > dd > :first-child { margin-top: 0; }
+.reveal dl > dd > :last-child  { margin-bottom: 0; }
+.reveal dl ul, .reveal dl ol { font-size: inherit; margin-top: .1em; }
+
+
 /* ---- Pseudocode: schlichte Codeblöcke ohne reveal-Rahmen ---- */
 .reveal pre {
   box-shadow: none;

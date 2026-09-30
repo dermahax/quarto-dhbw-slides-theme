@@ -212,6 +212,13 @@ Jede Folie beginnt mit `##`. Darunter normales Markdown.
 ::: {.block .alert data-title="Aufgabe"}         roter Block
 ::: {.block .info data-title="Hinweis"}          blauer Block
 
+::: {.leitfrage data-title="Die Frage"}          Einstiegsfrage, groß, ohne Kasten
+::: {.sec data-title="Heute"}                    Abschnitt: rote Überschrift, ohne Kasten
+::: {.merke data-title="Fazit"}                  Merksatz mit rotem Randstrich
+::: {.cols .vs}                                  Spalten mit Trennlinie (Gegenüberstellung)
+Begriff                                          Definitionsliste = Steckbrief-Tabelle
+: Erklärung
+
 ::: {.cols}  ::: {.col} … :::  ::: {.col} … :::  :::     zwei Spalten
 ::: {.col style="flex:60"}                                 ungleiche Breite
 ::: {.cols .unequal}                                       Blöcke nicht gleich hoch
@@ -224,6 +231,15 @@ $x$   $$ x $$                                              Formeln (KaTeX)
 [rot]{.hl}   [kleiner]{.small}                             Hervorhebung / Kleindruck
 ::: {.texfig} ![](figures/bild.svg){.fig width="400"} :::  zentrierte Abbildung
 ```
+
+Nicht alles braucht einen Kasten. Faustregel: ein `.block` pro Folie ist die
+Regel, zwei die Ausnahme. Aufgaben, Definitionen und Warnungen bleiben Blöcke;
+Einstiegsfragen, „Heute“-Listen, Gegenüberstellungen und Merksätze kommen mit
+`.leitfrage`, `.sec`, `.cols .vs` und `.merke` aus. `data-title` ist dort
+optional. Jede Definitionsliste (`Begriff` / `: Erklärung`) erscheint als
+zweispaltiger Steckbrief; beginnt ein Begriff mit „A)“, die Klammer escapen
+(`A\)`), sonst macht Pandoc eine Aufzählung daraus. Die neuen Formen gibt es
+nur in den Folien, nicht in den Übungsblättern.
 
 Ein Blocktitel steht in `data-title` und ist reiner Text. Braucht der Titel eine
 Formel oder Fettdruck, den Block als HTML schreiben:
@@ -303,6 +319,10 @@ anheben; `quarto update` zeigt sie an.
 
 ## Änderungen
 
+- **1.6.0** – Darstellungsformen ohne Kasten: `.leitfrage` (Einstiegsfrage),
+  `.sec` (Abschnitt mit roter Überschrift), `.merke` (Merksatz mit Randstrich),
+  `.cols .vs` (Spalten mit Trennlinie); Definitionslisten erscheinen als
+  zweispaltiger Steckbrief. Zwei neue Folien in `example.qmd`.
 - **1.5.1** – Formeln bleiben gerendert, wenn reveal.js die Scroll-Ansicht
   verlässt (vorher rohes TeX, u. a. beim Einbetten in Moodle). Kein
   CDN-Loader mehr: neuer Filter `dhbw-math.lua`, die HTML-Datei lädt nichts
