@@ -91,6 +91,20 @@ Lösungen direkt an. Im PDF funktionieren auch die Folienblöcke
 (`::: {.block .alert data-title="…"}`). Notebooks werden nicht ausgeführt; bei
 Python-Zellen `jupyter: python3` in den Kopf schreiben.
 
+## Folien als PDF
+
+Ein zweites Post-Render-Skript druckt bei `quarto render` (ganzes Projekt) jeden
+Foliensatz per Chrome/Edge zusätzlich als PDF, eine Seite pro Fragment-Schritt.
+Vorschau und `quarto render datei.qmd` bleiben bei HTML; erzwingen mit
+`--profile pdf`. Browserpfad notfalls in `DHBW_PDF_BROWSER`.
+
+```yaml
+project:
+  post-render:
+    - _extensions/dermahax/dhbw-slides/loesungen.ts
+    - _extensions/dermahax/dhbw-slides/folien-pdf.ts
+```
+
 ## Aufbau
 
 ```
@@ -103,6 +117,7 @@ _extensions/dhbw-slides/
     uebung.lua          Übungsblätter: .loesung, Blöcke, Logo
     uebung/             Typst-Vorlage der Übungsblätter
     loesungen.ts        Post-Render-Skript: erzeugt die Lösungsfassungen
+    folien-pdf.ts       Post-Render-Skript: Foliensätze zusätzlich als PDF
     logo.png            Quelle für das eingebettete Logo
     katex/              KaTeX 0.16 inkl. Schriften
 ```

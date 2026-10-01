@@ -2,8 +2,11 @@
 # eigene _quarto.yml (siehe README).
 project:
   title: "quarto-dhbw-slides"
-  # erzeugt zu example-uebung.qmd auch example-uebung-loesung.pdf
-  post-render: _extensions/dhbw-slides/loesungen.ts
+  # loesungen.ts: zu example-uebung.qmd auch example-uebung-loesung.pdf
+  # folien-pdf.ts: zu example.qmd auch example.pdf (nur bei quarto render)
+  post-render:
+    - _extensions/dhbw-slides/loesungen.ts
+    - _extensions/dhbw-slides/folien-pdf.ts
 
 lang: de
 

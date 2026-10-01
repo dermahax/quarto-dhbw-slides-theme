@@ -1,6 +1,6 @@
 title: DHBW Slides
 author: M. Bergau
-version: 1.6.1
+version: 1.7.0
 quarto-required: ">=1.4.0"
 contributes:
   shortcodes:
@@ -37,6 +37,9 @@ contributes:
         - path: dhbw-math.lua   # Formeln als TeX-Spans, kein CDN-Loader
           at: post-quarto
       include-after-body: dhbw-chrome.html
+
+      # ---- PDF-Export (?print-pdf bzw. folien-pdf.ts): eine Seite pro Fragment ----
+      pdf-separate-fragments: true
 
     # ---- Übungsblätter als PDF (Typst, in Quarto enthalten) ----
     typst:
