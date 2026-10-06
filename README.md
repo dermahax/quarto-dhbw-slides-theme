@@ -190,6 +190,15 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.8.1** – Hintergrundbilder und -videos liegen im selben 16:9-Rahmen wie der
+  Folieninhalt: Auf Breitbildschirmen zeigt `background-size="cover"` denselben
+  Ausschnitt wie auf dem Beamer, Overlays sitzen an derselben Stelle im Bild.
+  Die Ränder daneben sind auf Bildfolien schwarz. PDF-Export und Scroll-Ansicht
+  unverändert.
+- **1.8.0** – Größere Schrift für den Beamer: Blöcke, `.sec`, `.merke`,
+  Steckbrief (Definitionsliste) und die Tabellen `.cmp`/`.orga` 34,5 px
+  (vorher 31,5 bzw. 33 px), `.leitfrage` 40,5 px (vorher 36 px). Zentral
+  einstellbar über `$dhbw-box-font-size` und `$dhbw-leitfrage-font-size`.
 - **1.7.0** – Post-Render-Skript `folien-pdf.ts`: `quarto render` erzeugt zu
   jedem Foliensatz ein PDF (Chrome/Edge headless), Vorschau und Einzelrender
   bleiben schnell. `pdf-separate-fragments: true` als Vorgabe.

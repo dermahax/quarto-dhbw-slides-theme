@@ -24,6 +24,19 @@ $presentation-h2-font-size:         49.5px !default;
 $presentation-block-margin:         18px !default;
 $code-block-font-size:              28.5px !default;
 
+// ===== Schriftgröße der Kästen und kastenlosen Formen =====
+// Eine Größe für .block, .sec, .merke, Steckbrief (dl) und die Tabellen
+// .cmp/.orga – am Beamer lieber etwas größer (bis 1.7: 31,5 px bzw. 33 px).
+// Pro Projekt überschreibbar (eigene .scss mit scss:defaults hinter dhbw.scss).
+$dhbw-box-font-size:        34.5px !default;
+$dhbw-leitfrage-font-size:  40.5px !default;   // bis 1.7: 36 px
+$dhbw-leitfrage-label-size: 27px   !default;   // Kleintitel der Leitfrage, bis 1.7: 24 px
+
+// ===== Folienformat (muss zu width/height in _extension.yml passen) =====
+// Wird für den Rahmen der Hintergrundbilder gebraucht.
+$dhbw-slide-width:  1920 !default;
+$dhbw-slide-height: 1080 !default;
+
 
 /*-- scss:rules --*/
 
@@ -87,7 +100,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
   box-shadow: 0 3px 10.5px rgba(0, 0, 0, .16);
   margin: 18px 0;
   padding: 16.5px 22.5px;
-  font-size: 31.5px;
+  font-size: $dhbw-box-font-size;
   background: var(--blk-body);
 }
 .reveal .block[data-title]::before {
@@ -96,7 +109,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
   margin: -16.5px -22.5px 16.5px;
   padding: 9px 22.5px;
   font-weight: 700;
-  font-size: 31.5px;
+  font-size: $dhbw-box-font-size;
   background: var(--blk-title);
   color: var(--red);
 }
@@ -118,8 +131,8 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 
 /* ---- Alt-Klassen: Blöcke, die als rohes HTML aus den früheren Decks
        übernommen wurden, benutzen weiterhin .bt / .bb ---- */
-.reveal .block > .bt { padding: 9px 22.5px; font-weight: 700; font-size: 31.5px; }
-.reveal .block > .bb { padding: 16.5px 22.5px; font-size: 31.5px; }
+.reveal .block > .bt { padding: 9px 22.5px; font-weight: 700; font-size: $dhbw-box-font-size; }
+.reveal .block > .bb { padding: 16.5px 22.5px; font-size: $dhbw-box-font-size; }
 .reveal .block.normal  > .bt { background: var(--blk-title); color: var(--red); }
 .reveal .block.normal  > .bb { background: var(--blk-body); }
 .reveal .block.example > .bt { background: var(--ex-title); color: var(--ink); }
@@ -208,7 +221,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 
 /* ---- Leitfrage ---- */
 .reveal .leitfrage {
-  font-size: 36px;
+  font-size: $dhbw-leitfrage-font-size;
   line-height: 1.35;
   color: var(--ink);
   margin: 6px 0 30px;
@@ -224,16 +237,16 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
   color: var(--red);
 }
 .reveal .leitfrage[data-title]::before {
-  font-size: 24px;
+  font-size: $dhbw-leitfrage-label-size;
   letter-spacing: .08em;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
 
 /* ---- Abschnitt ohne Kasten ---- */
-.reveal .sec { font-size: 31.5px; margin: 18px 0 24px; }
+.reveal .sec { font-size: $dhbw-box-font-size; margin: 18px 0 24px; }
 .reveal .sec[data-title]::before {
-  font-size: 31.5px;
+  font-size: $dhbw-box-font-size;
   padding-bottom: 6px;
   margin-bottom: 12px;
   border-bottom: 2.25px solid var(--blk-title);
@@ -242,12 +255,12 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 
 /* ---- Merksatz ---- */
 .reveal .merke {
-  font-size: 31.5px;
+  font-size: $dhbw-box-font-size;
   margin: 24px 0 18px;
   padding: 12px 0 12px 27px;
   border-left: 7.5px solid var(--red);
 }
-.reveal .merke[data-title]::before { font-size: 31.5px; color: var(--darkred); margin-bottom: 4px; }
+.reveal .merke[data-title]::before { font-size: $dhbw-box-font-size; color: var(--darkred); margin-bottom: 4px; }
 
 .reveal .leitfrage > :first-child, .reveal .sec > :first-child, .reveal .merke > :first-child { margin-top: 0; }
 .reveal .leitfrage > :last-child,  .reveal .sec > :last-child,  .reveal .merke > :last-child  { margin-bottom: 0; }
@@ -264,7 +277,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
   display: grid;
   grid-template-columns: fit-content(32%) 1fr;
   margin: 12px 0 18px;
-  font-size: 31.5px;
+  font-size: $dhbw-box-font-size;
 }
 .reveal dl > dt, .reveal dl > dd {
   margin: 0;
@@ -321,7 +334,7 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .merge-ex .arrow { font-size: 36px; color: var(--ink); }
 
 /* ---- Vergleichstabelle im booktabs-Look ---- */
-.reveal table.cmp { border-collapse: collapse; margin: 9px auto 0; font-size: 31.5px; background: none; }
+.reveal table.cmp { border-collapse: collapse; margin: 9px auto 0; font-size: $dhbw-box-font-size; background: none; }
 .reveal table.cmp th, .reveal table.cmp td { padding: 10.5px 33px; text-align: center; border: none; }
 .reveal table.cmp th:first-child, .reveal table.cmp td:first-child { text-align: left; }
 .reveal table.cmp thead th { border-bottom: 2.25px solid var(--gray); font-weight: 700; }
@@ -437,6 +450,29 @@ html.print-pdf        .reveal .slides section#title-slide { height: 1080px; }
 .reveal #title-slide p.author,
 .reveal #title-slide p.date { display: none; }
 
+/* ---- Hintergründe im Folienrahmen ----
+   reveal.js legt Hintergründe (background-image/-video/-iframe) über das ganze
+   Fenster, den Folieninhalt aber in einen 16:9-Rahmen. Auf Breitbildschirmen
+   (21:9) schneidet "cover" dann oben und unten viel ab, und Overlays sitzen an
+   einer anderen Stelle im Bild als auf dem Beamer. Deshalb liegen die
+   Hintergründe im selben Rahmen wie der Inhalt: Jeder Bildschirm zeigt denselben
+   Ausschnitt wie ein 16:9-Beamer. Der Rahmen ist weiß, die Ränder daneben werden
+   auf Bild-/Videofolien schwarz.
+   Nicht im PDF-Export und nicht in der Scroll-Ansicht – dort legt reveal.js die
+   Hintergründe ohnehin pro Seite an. */
+html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal > .backgrounds {
+  top: 0; right: 0; bottom: 0; left: 0;
+  margin: auto;
+  width:  min(100vw, calc(100vh * #{$dhbw-slide-width} / #{$dhbw-slide-height}));
+  height: min(100vh, calc(100vw * #{$dhbw-slide-height} / #{$dhbw-slide-width}));
+  background: $body-bg;
+}
+html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgrounds .slide-background.present > .slide-background-content[style*="background-image"]),
+html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgrounds .slide-background.present video),
+html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgrounds .slide-background.present iframe) {
+  background: #000;
+}
+
 /* ================= Chrome: Logo + Fußzeile ================= */
 .logo { position: fixed; top: 21px; right: 33px; height: 39px; z-index: 50; }
 .dhbw-footer {
@@ -477,7 +513,7 @@ html.print-pdf .meta .pg { display: none; }
 /* ---- Organisatorisches: Steckbrief-Tabelle aus dem Shortcode {{< orga >}} ---- */
 .reveal table.orga {
   border-collapse: collapse; width: 100%; margin: 6px 0 0; background: none;
-  font-size: 33px; table-layout: fixed;
+  font-size: $dhbw-box-font-size; table-layout: fixed;
 }
 .reveal table.orga th, .reveal table.orga td {
   text-align: left; vertical-align: top; border: none;
