@@ -82,6 +82,33 @@
       }
     }
 
+    // --- Tabellen in Sprechernotizen. Die Speaker-Ansicht (Taste S) uebernimmt
+    //     nur das HTML der Notizen, nicht das Theme-CSS - Tabellen stuenden dort
+    //     ohne Abstaende und Linien. Darum bekommt jede Notiz mit Tabelle ein
+    //     eigenes <style>, das mit dem HTML hinueberwandert. Die Selektoren
+    //     greifen nur im Speaker-Fenster bzw. bei show-notes. ---
+    var NOTES_TABLE_CSS =
+      '.speaker-controls-notes table, .speaker-notes table {' +
+      '  border-collapse: collapse; margin: 0.6em 0; font-size: 0.95em; }' +
+      '.speaker-controls-notes th, .speaker-controls-notes td,' +
+      '.speaker-notes th, .speaker-notes td {' +
+      '  border: 1px solid #c8c8c8; padding: 0.25em 0.8em; vertical-align: top; }' +
+      '.speaker-controls-notes thead th, .speaker-notes thead th {' +
+      '  background: #eef0f2; font-weight: bold; border-bottom: 2px solid #9a9a9a; }' +
+      '.speaker-controls-notes tbody tr:nth-child(even), .speaker-notes tbody tr:nth-child(even) {' +
+      '  background: #f7f7f7; }';
+
+    function styleNotesTables() {
+      var notes = document.querySelectorAll('aside.notes, .reveal .notes');
+      Array.prototype.forEach.call(notes, function (n) {
+        if (!n.querySelector('table') || n.querySelector('style.dhbw-notes-css')) return;
+        var st = document.createElement('style');
+        st.className = 'dhbw-notes-css';
+        st.textContent = NOTES_TABLE_CSS;
+        n.insertBefore(st, n.firstChild);
+      });
+    }
+
     // --- Fusszeile: Seitenzahl und Cover-Zustand ---
     function updateChrome() {
       var pg = document.getElementById('pg');
@@ -103,6 +130,7 @@
       if (!slides || !window.MutationObserver) return;
       new MutationObserver(function () {
         renderMath(slides);
+        styleNotesTables();
         if (window.Reveal && Reveal.isReady && Reveal.isReady()) Reveal.layout();
       }).observe(slides, { childList: true });
     }
@@ -112,6 +140,7 @@
       buildCrumbs();
       setAuthor();
       renderMath();
+      styleNotesTables();
       watchSlides();
       if (window.Reveal && Reveal.on) {
         Reveal.on('ready', function () { updateChrome(); Reveal.layout(); });

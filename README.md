@@ -190,6 +190,11 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.8.4** – Tabellen in Sprechernotizen sind in der Speaker-Ansicht (Taste S)
+  übersichtlich: Zellabstand, Linien, fette hinterlegte Kopfzeile, abwechselnd
+  getönte Zeilen. Vorher klebten die Spalten aneinander, weil das Speaker-Fenster
+  das Theme-CSS nicht hat; jede Notiz mit Tabelle trägt ihr Tabellen-CSS jetzt
+  selbst mit. Ausrichtung aus dem Markdown (`|--:|`) bleibt erhalten.
 - **1.8.3** – Formeln in Sprechernotizen (`::: {.notes}`) erscheinen in der
   Speaker-Ansicht (Taste S) nur noch einmal. Vorher stand jede Formel doppelt da
   (gerendert und als flacher Text), weil das Speaker-Fenster das KaTeX-CSS nicht
