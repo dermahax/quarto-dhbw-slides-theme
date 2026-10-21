@@ -152,6 +152,60 @@ local function div(el)
   end
 end
 
+-- PDF: Pandoc schreibt „…“ nach Typst als „…" – und Typst macht aus dem
+-- geraden " ein neues öffnendes Zeichen, weil das „ davor kein Typst-Zitat ist
+-- (Ergebnis „…„). Deshalb werden „ “ ” als Typst-Anführungszeichen " ausgegeben;
+-- Typst setzt sie dann passend zur Sprache (de: „…“).
+local QUOTES = { "\226\128\158", "\226\128\156", "\226\128\157" }   -- „ “ ”
+local function anfuehrungszeichen(el)
+  if not quarto.doc.is_format("typst") then return nil end
+  local text = el.text
+  local out, pos = pandoc.List(), 1
+  while true do
+    local naechste, laenge = nil, 0
+    for _, q in ipairs(QUOTES) do
+      local i = text:find(q, pos, true)
+      if i and (not naechste or i < naechste) then naechste, laenge = i, #q end
+    end
+    if not naechste then break end
+    if naechste > pos then out:insert(pandoc.Str(text:sub(pos, naechste - 1))) end
+    out:insert(pandoc.RawInline("typst", '"'))
+    pos = naechste + laenge
+  end
+  if #out == 0 then return nil end
+  if pos <= #text then out:insert(pandoc.Str(text:sub(pos))) end
+  return out
+end
+
+-- Notebook: Jupyter-Markdown kennt keine Buchstaben-Listen. Pandoc würde aus
+-- a., b., c. ein 1., 2., 3. machen und den Start verlieren (eine Lösungsliste,
+-- die mit b. beginnt, hieße dann 1.). Deshalb wird jeder Punkt ein Absatz mit
+-- fettem Buchstaben davor; weitere Blöcke des Punkts (Tabellen, Code) folgen.
+local function buchstaben_liste(el)
+  if not quarto.doc.is_format("ipynb") then return nil end
+  local stil = el.listAttributes.style
+  if stil ~= "LowerAlpha" and stil ~= "UpperAlpha" then return nil end
+  local start = el.listAttributes.start or 1
+  local zeichen = (el.listAttributes.delimiter == "OneParen"
+    or el.listAttributes.delimiter == "TwoParens") and ")" or "."
+  local out = pandoc.List()
+  for i, punkt in ipairs(el.content) do
+    local label = pandoc.Strong({ pandoc.Str(string.char(
+      (stil == "UpperAlpha" and 64 or 96) + start + i - 1) .. zeichen) })
+    local erster = punkt[1]
+    if erster and (erster.t == "Plain" or erster.t == "Para") then
+      local inhalt = pandoc.List({ label, pandoc.Space() })
+      inhalt:extend(erster.content)
+      out:insert(pandoc.Para(inhalt))
+      for j = 2, #punkt do out:insert(punkt[j]) end
+    else
+      out:insert(pandoc.Para({ label }))
+      out:extend(punkt)
+    end
+  end
+  return out
+end
+
 local function kopf(doc)
   if nb_kopf then
     doc.blocks:insert(1, pandoc.Div({ nb_kopf }, pandoc.Attr("", { "cell", "markdown" })))
@@ -161,6 +215,8 @@ end
 
 return {
   { Meta = read_meta },
+  { Str = anfuehrungszeichen },
   { Div = div },
+  { OrderedList = buchstaben_liste },   -- nach den Lösungs-Divs: eine Zelle bleibt eine Zelle
   { Pandoc = kopf },
 }

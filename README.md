@@ -190,6 +190,16 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.8.3** – Formeln in Sprechernotizen (`::: {.notes}`) erscheinen in der
+  Speaker-Ansicht (Taste S) nur noch einmal. Vorher stand jede Formel doppelt da
+  (gerendert und als flacher Text), weil das Speaker-Fenster das KaTeX-CSS nicht
+  hat. Notizen werden jetzt als reines MathML gerendert, das der Browser selbst
+  setzt; `$…$` in Notizen ist damit wieder unbedenklich.
+- **1.8.2** – Notebooks (`dhbw-slides-ipynb`): Teilaufgaben a., b., c. behalten
+  ihre Buchstaben (Jupyter-Markdown kennt keine Buchstaben-Listen; Pandoc machte
+  daraus 1., 2., 3., und Lösungslisten ab b. begannen wieder bei 1.).
+  PDF-Übungsblätter: deutsche Anführungszeichen „…“ erscheinen richtig (vorher
+  „…„, weil Pandoc das schließende Zeichen als gerades " nach Typst schrieb).
 - **1.8.1** – Hintergrundbilder und -videos liegen im selben 16:9-Rahmen wie der
   Folieninhalt: Auf Breitbildschirmen zeigt `background-size="cover"` denselben
   Ausschnitt wie auf dem Beamer, Overlays sitzen an derselben Stelle im Bild.

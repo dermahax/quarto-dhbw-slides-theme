@@ -40,7 +40,15 @@
 
     // --- Mathe lokal rendern. dhbw-math.lua liefert rohes TeX in
     //     <span class="math inline|display">; nach dem Rendern verliert der
-    //     Span die Klasse "math", ein zweiter Aufruf rendert also nichts doppelt. ---
+    //     Span die Klasse "math", ein zweiter Aufruf rendert also nichts doppelt.
+    //     In Sprechernotizen nur MathML: Die Speaker-Ansicht (Taste S) uebernimmt
+    //     das HTML der Notizen, hat aber kein KaTeX-CSS - mit dem ueblichen
+    //     HTML+MathML stuende jede Formel dort doppelt. MathML rendert der
+    //     Browser selbst. ---
+    function inNotes(el) {
+      return !!(el.closest && el.closest('aside.notes, .notes'));
+    }
+
     function renderMath(root) {
       if (typeof katex === 'undefined') return;
       root = root || document.body;
@@ -52,7 +60,11 @@
         el.classList.remove('math', 'inline', 'display');
         el.classList.add('dhbw-math');
         try {
-          katex.render(tex, el, { displayMode: display, throwOnError: false });
+          katex.render(tex, el, {
+            displayMode: display,
+            throwOnError: false,
+            output: inNotes(el) ? 'mathml' : 'htmlAndMathml'
+          });
         } catch (e) {
           el.textContent = tex;
         }
@@ -64,7 +76,7 @@
             { left: '\\[', right: '\\]', display: true },
             { left: '\\(', right: '\\)', display: false }
           ],
-          ignoredClasses: ['code', 'ide'],
+          ignoredClasses: ['code', 'ide', 'notes'],
           throwOnError: false
         });
       }
