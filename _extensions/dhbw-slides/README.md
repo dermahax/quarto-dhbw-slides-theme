@@ -91,6 +91,11 @@ Lösungen direkt an. Im PDF funktionieren auch die Folienblöcke
 (`::: {.block .alert data-title="…"}`). Notebooks werden nicht ausgeführt; bei
 Python-Zellen `jupyter: python3` in den Kopf schreiben.
 
+**Klausuren:** Ein Block `klausur:` im Kopf (Felder `lehrveranstaltung`, `kurs`,
+`datum`, `dozent`, `dauer`, `hilfsmittel`, optional `punkte`) setzt das PDF im
+Layout der DHBW-Klausurvorlage. Punkte: `## Aufgabe 1: Titel {punkte=6}` und
+`[2]{.punkte}`; die Summe steht auf dem Deckblatt. Details im Repo-README.
+
 ## Folien als PDF
 
 Ein zweites Post-Render-Skript druckt bei `quarto render` (ganzes Projekt) jeden
@@ -114,7 +119,7 @@ _extensions/dhbw-slides/
     dhbw.lua            schreibt window.DHBW, bindet KaTeX lokal ein
     dhbw-math.lua       Formeln als TeX-Spans (verhindert Quartos CDN-Loader)
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
-    uebung.lua          Übungsblätter: .loesung, Blöcke, Logo
+    uebung.lua          Übungsblätter und Klausuren: .loesung, Blöcke, Punkte, Logo
     uebung/             Typst-Vorlage der Übungsblätter
     loesungen.ts        Post-Render-Skript: erzeugt die Lösungsfassungen
     folien-pdf.ts       Post-Render-Skript: Foliensätze zusätzlich als PDF

@@ -123,6 +123,45 @@ Mit `loesungen.ts` entstehen `ueb-01.pdf` und `ueb-01-loesung.pdf` (bzw.
 PDF; Bilder mit `../figures/…`. Notebooks werden nicht ausgeführt
 (`jupyter: python3` in den Kopf). Braucht Quarto ≥ 1.5.
 
+## Klausuren
+
+Ein Block `klausur:` im Kopf eines `dhbw-slides-typst`-Dokuments schaltet auf
+das Layout der DHBW-Klausurvorlage (Studienzentrum IT-Management/Informatik)
+um: Kopfzeile mit Logo und „Seite x von y“, Deckblatt mit Lehrveranstaltung,
+Kurs, Datum, Dozent/in, Matrikel-Nummer, Hilfsmitteln, Dauer, Punktzahl und den
+Standardhinweisen, danach die Aufgaben in Arial 12 pt mit Teilaufgaben a), b), …
+
+```markdown
+---
+title: "Klausur"                     # oder "Probeklausur"; gesperrt gesetzt
+format: dhbw-slides-typst
+klausur:
+  lehrveranstaltung: "Einführung in die Informationstechnik"  # Rückfall: dhbw.vorlesung
+  kurs: "WWI25A"
+  datum: "15.12.2026"                # Rückfall: date
+  dozent: "M. Bergau"                # Rückfall: dhbw.author
+  dauer: "60 Minuten"
+  hilfsmittel: "keine"               # Vorgabe: keine
+  # punkte: 50                       # sonst Summe der punkte=-Angaben
+---
+
+## Aufgabe 1: Zahlensysteme {punkte=6}
+
+a. Wandeln Sie $1101_2$ in das Dezimalsystem um. [2]{.punkte}
+b. … [4]{.punkte}
+
+::: {.loesung}
+…
+:::
+```
+
+`{punkte=6}` an der Überschrift ergibt „Aufgabe 1 (6 Punkte): Zahlensysteme“,
+`[2]{.punkte}` ergibt „(2 Punkte)“ (beides funktioniert auch auf Übungsblättern).
+Leere Felder (`kurs: ""`) bleiben auf dem Deckblatt zum Ausfüllen frei. Die
+Lösungsfassung (`loesungen.ts`) trägt unter dem Titel „Musterlösung“; die
+Seitenzahl im ersten Hinweis zählt automatisch mit. Beispiel:
+`example-klausur.qmd`.
+
 ## Syntax-Spickzettel
 
 ```markdown
@@ -170,10 +209,12 @@ _extensions/dhbw-slides/
     dhbw-math.lua       Formeln als TeX-Spans (verhindert Quartos CDN-Loader)
     dhbw-chrome.html    Logo, Fußzeile, Kapitelleiste, KaTeX-Aufruf
     orga.lua            Shortcode {{< orga >}}
-    uebung.lua, uebung/ Übungsblätter: .loesung, Blöcke, Logo, Typst-Vorlage
+    uebung.lua, uebung/ Übungsblätter und Klausuren: .loesung, Blöcke, Punkte,
+                        Logo, Typst-Vorlage (dhbw-uebung, Klausur-Modus)
     loesungen.ts        Post-Render: Lösungsfassungen der Übungsblätter
     folien-pdf.ts       Post-Render: Foliensätze als PDF
     logo.png            Quelle des eingebetteten Logos
+    logo-klausur.png    Logo mit Schriftzug für die Kopfzeile der Klausuren
     katex/              KaTeX 0.16.11 inkl. Schriften
 ```
 
@@ -190,6 +231,12 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.8.6** – Klausur-Modus für PDFs (`dhbw-slides-typst`): Ein Block
+  `klausur:` im Dokumentkopf setzt das Dokument im Layout der DHBW-Klausurvorlage
+  (Deckblatt, Kopfzeile mit Logo und „Seite x von y“, Arial 12 pt, Teilaufgaben
+  a), b), …), siehe [Klausuren](#klausuren). Neu für Klausuren und Übungsblätter:
+  Punkte mit `{punkte=6}` an der Aufgabenüberschrift und `[2]{.punkte}` im
+  Text; die Gesamtpunktzahl auf dem Deckblatt wird daraus summiert.
 - **1.8.4** – Tabellen in Sprechernotizen sind in der Speaker-Ansicht (Taste S)
   übersichtlich: Zellabstand, Linien, fette hinterlegte Kopfzeile, abwechselnd
   getönte Zeilen. Vorher klebten die Spalten aneinander, weil das Speaker-Fenster

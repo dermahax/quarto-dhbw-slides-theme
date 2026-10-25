@@ -1,0 +1,31 @@
+---
+title: "Klausur"
+format: dhbw-slides-typst
+klausur:
+  lehrveranstaltung: "Beispielvorlesung"
+  kurs: ""
+  datum: ""
+  dauer: "60 Minuten"
+---
+
+## Aufgabe 1: Beispielaufgabe „Entscheidungsbaum“ {punkte=6}
+
+a. Was ist ein Entscheidungsbaum? [3]{.punkte}
+b. Geben Sie ein Beispiel eines Entscheidungsbaums an, der mindestens 3 Knoten
+   enthält. [3]{.punkte}
+
+::: {.loesung}
+a. Ein Baum, dessen innere Knoten Fragen an die Eingabe stellen und dessen
+   Blätter die Entscheidung tragen.
+b. Zum Beispiel: „Regnet es?“ – ja: „Schirm mitnehmen“, nein: „ohne Schirm“.
+:::
+
+## Aufgabe 2: Zahlensysteme {punkte=4}
+
+a. Wandeln Sie $1101_2$ in das Dezimalsystem um. [1]{.punkte}
+b. Wandeln Sie $3241_5$ in das Dezimalsystem um. [3]{.punkte}
+
+::: {.loesung}
+a. $8 + 4 + 1 = 13$
+b. $3 \cdot 125 + 2 \cdot 25 + 4 \cdot 5 + 1 = 446$
+:::

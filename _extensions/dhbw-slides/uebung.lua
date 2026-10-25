@@ -2,6 +2,13 @@
 --
 --   ::: {.loesung}                 Lösung, steht direkt unter der Aufgabe
 --   ::: {.block .alert data-title="…"}   Block wie auf den Folien (nur PDF)
+--   ## Aufgabe 1: Titel {punkte=6}  →  „Aufgabe 1 (6 Punkte): Titel“
+--   [3]{.punkte}                    →  „(3 Punkte)“, z. B. am Ende einer Teilaufgabe
+--
+-- Klausur-Modus (nur PDF): ein Block  klausur:  im Dokumentkopf schaltet auf das
+-- Layout der DHBW-Klausurvorlage um (Deckblatt, Kopfzeile „Seite x von y“,
+-- Arial 12 pt, Teilaufgaben a), b), …). Die Gesamtpunktzahl auf dem Deckblatt
+-- ist die Summe der punkte=-Angaben, falls klausur.punkte fehlt.
 --
 -- PDF: Die Lösungen stehen immer in der .typ-Datei, werden aber nur gezeigt,
 -- wenn  loesung: true  gesetzt ist oder die .typ mit  --input loesung=true
@@ -11,6 +18,7 @@
 -- schreibt daraus  …-loesung.ipynb  und entfernt sie aus dem Aufgaben-Notebook.
 
 local loesung_meta = false
+local klausur_modus = false
 
 local function truthy(v)
   if v == nil then return false end
@@ -21,8 +29,8 @@ end
 
 -- Pfad des Logos relativ zur Projektwurzel. Typst behandelt Pfade mit
 -- führendem "/" relativ zu --root, und Quarto setzt --root auf das Projekt.
-local function logo_path()
-  local abs = quarto.utils.resolve_path("logo.png")
+local function logo_path(datei)
+  local abs = quarto.utils.resolve_path(datei or "logo.png")
   local root = (quarto.project and quarto.project.directory)
     or pandoc.path.directory(quarto.doc.input_file)
   local rel = pandoc.path.make_relative(abs, root)
@@ -90,6 +98,13 @@ local function read_meta(meta)
     if logo then
       meta["dhbw-logo"] = pandoc.MetaInlines({ pandoc.RawInline("typst", logo) })
     end
+    if meta.klausur ~= nil and meta.klausur ~= false then
+      klausur_modus = true
+      local kl = logo_path("logo-klausur.png")
+      if kl then
+        meta["dhbw-logo-klausur"] = pandoc.MetaInlines({ pandoc.RawInline("typst", kl) })
+      end
+    end
   end
   return meta
 end
@@ -119,6 +134,37 @@ local function tag_cells(blocks)
     end
   end
   return out
+end
+
+-- Punkte: „1 Punkt“, sonst „n Punkte“ (Dezimalkomma bleibt, wie es dasteht)
+local function punkte_text(n)
+  return n .. (n == "1" and " Punkt" or " Punkte")
+end
+
+-- ## Aufgabe 1: Titel {punkte=6}  →  Aufgabe 1 (6 Punkte): Titel
+local function punkte_header(el)
+  local n = el.attributes["punkte"]
+  if not n then return nil end
+  el.attributes["punkte"] = nil
+  local zusatz = pandoc.Str("(" .. punkte_text(n) .. ")")
+  for i, x in ipairs(el.content) do
+    if x.t == "Str" and x.text:sub(-1) == ":" then
+      x.text = x.text:sub(1, -2)
+      el.content:insert(i + 1, pandoc.Space())
+      el.content:insert(i + 2, zusatz)
+      el.content:insert(i + 3, pandoc.Str(":"))
+      return el
+    end
+  end
+  el.content:insert(pandoc.Space())
+  el.content:insert(zusatz)
+  return el
+end
+
+-- [3]{.punkte}  →  (3 Punkte)
+local function punkte_span(el)
+  if not el.classes:includes("punkte") then return nil end
+  return pandoc.Str("(" .. punkte_text(pandoc.utils.stringify(el.content)) .. ")")
 end
 
 local function div(el)
@@ -182,6 +228,14 @@ end
 -- die mit b. beginnt, hieße dann 1.). Deshalb wird jeder Punkt ein Absatz mit
 -- fettem Buchstaben davor; weitere Blöcke des Punkts (Tabellen, Code) folgen.
 local function buchstaben_liste(el)
+  if klausur_modus and quarto.doc.is_format("typst") then
+    local stil = el.listAttributes.style
+    if stil == "LowerAlpha" or stil == "UpperAlpha" then
+      el.listAttributes.delimiter = "OneParen"
+      return el
+    end
+    return nil
+  end
   if not quarto.doc.is_format("ipynb") then return nil end
   local stil = el.listAttributes.style
   if stil ~= "LowerAlpha" and stil ~= "UpperAlpha" then return nil end
@@ -207,6 +261,17 @@ local function buchstaben_liste(el)
 end
 
 local function kopf(doc)
+  -- Gesamtpunktzahl für das Klausur-Deckblatt
+  local summe, gefunden = 0, false
+  doc:walk({ Header = function(h)
+    local n = tonumber(((h.attributes["punkte"] or ""):gsub(",", ".")))
+    if n then summe, gefunden = summe + n, true end
+  end })
+  if gefunden then
+    local s = (summe == math.floor(summe)) and string.format("%d", summe)
+      or tostring(summe):gsub("%.", ",")
+    doc.meta["klausur-summe"] = pandoc.MetaString(s)
+  end
   if nb_kopf then
     doc.blocks:insert(1, pandoc.Div({ nb_kopf }, pandoc.Attr("", { "cell", "markdown" })))
   end
@@ -215,8 +280,9 @@ end
 
 return {
   { Meta = read_meta },
+  { Pandoc = kopf },                    -- Punkte zählen, solange punkte= noch dasteht
+  { Header = punkte_header, Span = punkte_span },
   { Str = anfuehrungszeichen },
   { Div = div },
   { OrderedList = buchstaben_liste },   -- nach den Lösungs-Divs: eine Zelle bleibt eine Zelle
-  { Pandoc = kopf },
 }
