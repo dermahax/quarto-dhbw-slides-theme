@@ -491,6 +491,15 @@ html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgro
 .meta { display: flex; align-items: center; gap: 21px; color: var(--gray); font-size: 19.5px; }
 .meta .pg { color: var(--red); font-weight: 700; font-size: 22.5px; }
 body.cover .dhbw-footer { display: none; }
+
+/* ---- Vollbildfolie: ## {.vollbild} ----
+   Kein Rand, kein Frametitel, keine Fußzeile und kein Logo: Der Inhalt
+   (iframe, 3D-Viewer, Video …) füllt die ganze 1920 x 1080-Folie. */
+html:not(.print-pdf) .reveal .slides section.vollbild { padding: 0; }
+.reveal .slides section.vollbild > h2 { display: none; }
+.reveal .slides section.vollbild > * { margin: 0; }
+body.vollbild .dhbw-footer,
+body.vollbild .logo { display: none; }
 /* Im PDF-Export steht die Fußzeile auf jeder Seite; die Seitenzahl kann dort
    nicht mitzählen (ein fixiertes Element wird pro Seite wiederholt) */
 html.print-pdf .dhbw-footer { display: flex !important; }

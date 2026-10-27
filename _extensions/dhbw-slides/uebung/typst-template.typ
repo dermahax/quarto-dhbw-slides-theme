@@ -75,8 +75,10 @@
   k: (:),
   doc,
 ) = {
-  let font = ("Arial", "Liberation Sans")
-  let kopf-font = ("Calibri", "Carlito", "Arial", "Liberation Sans")
+  // nur die Schriften der Vorlage: Ersatznamen, die es unter Windows nicht
+  // gibt, lösen sonst bei jedem Rendern „unknown font family“-Warnungen aus
+  let font = ("Arial",)
+  let kopf-font = ("Calibri", "Arial")
   set document(title: title) if title != none
   set text(lang: lang, font: font, size: 12pt)
   set par(justify: false, leading: 0.65em)

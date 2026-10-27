@@ -56,6 +56,11 @@ function Meta(meta)
   local chapters = as_strings(cfg.chapters)
   local author = pandoc.utils.stringify(cfg.author or meta.author or "")
   local chapter = pandoc.utils.stringify(cfg.chapter or "")
+  -- Kapitelpfeile: dhbw.crumbs true/false; ohne Angabe nur bei mehr als einem Kapitel
+  local crumbs = cfg.crumbs
+  if crumbs ~= nil and type(crumbs) ~= "boolean" then
+    crumbs = pandoc.utils.stringify(crumbs) == "true"
+  end
 
   local parts = {}
   for _, c in ipairs(chapters) do parts[#parts + 1] = json_string(c) end
@@ -63,6 +68,7 @@ function Meta(meta)
   local js = "<script>window.DHBW = {chapters: [" .. table.concat(parts, ", ")
     .. "], author: " .. json_string(author)
     .. (chapter ~= "" and (", chapter: " .. chapter) or "")
+    .. (crumbs ~= nil and (", crumbs: " .. tostring(crumbs)) or "")
     .. "};</script>"
   quarto.doc.include_text("after-body", js)
 

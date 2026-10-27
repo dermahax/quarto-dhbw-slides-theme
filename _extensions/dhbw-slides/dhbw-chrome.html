@@ -17,6 +17,9 @@
       var bar = document.getElementById('crumbs');
       if (!bar) return;
       var names = CFG.chapters || [];
+      // dhbw.crumbs: true/false; ohne Angabe nur bei mehr als einem Kapitel
+      var show = (typeof CFG.crumbs === 'boolean') ? CFG.crumbs : names.length > 1;
+      if (!show) { bar.style.display = 'none'; return; }
       names.forEach(function (name) {
         var s = document.createElement('span');
         s.className = 'chev';
@@ -116,6 +119,9 @@
       var printMode = document.documentElement.classList.contains('print-pdf');
       var i = Reveal.getIndices().h;
       document.body.classList.toggle('cover', !printMode && i === 0);
+      var cur = Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+      document.body.classList.toggle('vollbild',
+        !printMode && !!cur && cur.classList.contains('vollbild'));
       pg.textContent = (i + 1);
     }
 

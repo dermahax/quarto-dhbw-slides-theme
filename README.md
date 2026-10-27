@@ -231,6 +231,9 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.8.7** – Klausur-Modus: keine Warnungen „unknown font family: liberation
+  sans / carlito“ mehr beim Rendern unter Windows. Die Vorlage nennt nur noch
+  Arial und Calibri.
 - **1.8.6** – Klausur-Modus für PDFs (`dhbw-slides-typst`): Ein Block
   `klausur:` im Dokumentkopf setzt das Dokument im Layout der DHBW-Klausurvorlage
   (Deckblatt, Kopfzeile mit Logo und „Seite x von y“, Arial 12 pt, Teilaufgaben

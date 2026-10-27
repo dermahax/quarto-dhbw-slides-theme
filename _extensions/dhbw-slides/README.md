@@ -34,6 +34,7 @@ Die einzelnen `.qmd`-Dateien brauchen im Kopf nur noch ihren Titel.
 | `dhbw.chapters`  | Beschriftungen der Chevrons, in Reihenfolge.                      |
 | `dhbw.chapter`   | Nummer des aktiven Kapitels (1-basiert). Optional.                |
 | `dhbw.vorlesung` | Name der Vorlesung in der Kopfzeile der Übungsblätter.            |
+| `dhbw.crumbs`    | Kapitelpfeile in der Fußzeile ein/aus. Ohne Angabe nur bei mehr als einem Kapitel sichtbar. |
 
 Ohne `dhbw.chapter` wird die Nummer aus dem Dateinamen abgeleitet:
 `05-graphen.qmd` markiert das fünfte Chevron. Deshalb die Kapiteldateien
@@ -54,6 +55,7 @@ durchnummeriert benennen.
 | `.cols .vs`                   | Spalten mit Trennlinie statt Kästen (Gegenüberstellung)      |
 | Definitionsliste              | `Begriff` / `: Erklärung` wird zur zweispaltigen Steckbrief-Tabelle |
 | `.texfig`                     | zentrierte Abbildung, zusammen mit `![](…){.fig}`            |
+| `## {.vollbild}`              | Folie ohne Rand, Titel, Fußzeile und Logo; Inhalt füllt 1920 × 1080 |
 | `.hl`                         | Inline-Hervorhebung in DHBW-Rot                              |
 | `.small`                      | kleinerer Fließtext                                          |
 
