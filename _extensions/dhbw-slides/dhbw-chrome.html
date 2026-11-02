@@ -10,6 +10,41 @@
     // window.DHBW unter Umstaenden erst nach diesem Skript in die Seite.
     var CFG = {};
 
+    // --- PDF-Export: Jede Animation (Heap, Dijkstra, Labyrinth, ...) nur
+    //     einmal. Die Animationen legen fuer jeden Schritt ein leeres,
+    //     unsichtbares Fragment an, damit Leertaste und Presenter Schritt fuer
+    //     Schritt weiterschalten. Mit pdf-separate-fragments wuerde daraus je
+    //     Schritt eine PDF-Seite mit immer demselben Bild.
+    //     1. Quartos Taste E oeffnet die Druckansicht als ?view=print, die
+    //        Animationen erkennen nur ?print-pdf (dann zeigen sie den
+    //        Endzustand). Darum auf ?print-pdf umleiten - reveal.js versteht
+    //        beides, es gibt also nur noch einen Druckweg.
+    //     2. Im Druck leere Fragmente (span/div ohne Inhalt) zu normalen
+    //        Elementen machen: Sie aendern nichts Sichtbares, wuerden aber je
+    //        eine Seite kosten. Echte Fragmente mit Text, Bild oder Formel
+    //        bleiben eigene Seiten. ---
+    var SEARCH = location.search;
+    if (/(^|[?&])view=print(&|$)/i.test(SEARCH) && !/print-pdf/i.test(SEARCH)) {
+      location.replace(location.href.replace(/([?&])view=print/i, '$1print-pdf'));
+      return;
+    }
+    var PRINT = /print-pdf/i.test(SEARCH);
+
+    function isEmptyFragment(f) {
+      if (f.tagName !== 'SPAN' && f.tagName !== 'DIV') return false;
+      if (f.children.length > 0 || f.textContent.trim() !== '') return false;
+      return !f.hasAttribute('style');
+    }
+
+    function dropEmptyFragments() {
+      var frs = document.querySelectorAll('.reveal .slides .fragment');
+      Array.prototype.forEach.call(frs, function (f) {
+        if (isEmptyFragment(f)) f.classList.remove('fragment');
+      });
+    }
+
+    if (PRINT) dropEmptyFragments();
+
     // --- Kapitelleiste aus den Metadaten aufbauen und das aktive Kapitel
     //     markieren. Der Index kommt aus  dhbw.chapter  oder aus dem
     //     Dateinamen, z. B. "05-graphen.html" -> fuenftes Chevron. ---

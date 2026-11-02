@@ -99,7 +99,10 @@ format:
 Fragment-Schritt (`pdf-separate-fragments`, abschaltbar im Format). Browser wird
 automatisch gesucht, sonst Pfad in `DHBW_PDF_BROWSER`. Ein im Viewer geöffnetes
 PDF wird mit Warnung übersprungen. Interaktive Inhalte (iframes, Widgets)
-erscheinen im PDF nur im Anfangszustand.
+erscheinen im PDF nur im Anfangszustand. Schritt-Animationen (Heap, Dijkstra,
+Labyrinth, …) bekommen genau eine Seite: Leere Fragmente, mit denen sie ihre
+Schritte steuern, zählen im Druck nicht. Dasselbe gilt für Taste `E` im Browser
+(Quarto öffnet dann `?view=print`, das Theme leitet auf `?print-pdf` um).
 
 ## Organisatorisches-Folie
 
@@ -256,6 +259,12 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.10.2** – PDF-Export: Jede Schritt-Animation erscheint nur noch auf einer
+  Seite statt auf einer Seite pro Schritt. Leere Fragmente (die unsichtbaren
+  Schritt-Marken der Animationen) werden im Druck zu normalen Elementen, echte
+  Fragmente mit Inhalt bekommen weiter je eine Seite. Taste `E` (Quartos
+  `?view=print`) wird auf `?print-pdf` umgeleitet, damit Animationen wie Heap,
+  Dijkstra und Greedy auch dort ihren Endzustand zeigen.
 - **1.10.1** – Zeichnen in der Speaker-Ansicht: Striche landen in Vorschau und
   Beamer jetzt an derselben Stelle der Folie. Vorher rechnete das
   Chalkboard-Plugin bis zur ersten Fenstergrößenänderung in Bildschirmpixeln,
