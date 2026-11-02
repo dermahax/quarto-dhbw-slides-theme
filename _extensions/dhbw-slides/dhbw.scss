@@ -488,7 +488,8 @@ html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgro
   clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 0 100%, 9px 50%);
 }
 .chev.active { background: var(--red); color: #fff; }
-.meta { display: flex; align-items: center; gap: 21px; color: var(--gray); font-size: 19.5px; }
+.meta { display: flex; align-items: center; gap: 21px; color: var(--gray); font-size: 19.5px;
+  margin-left: auto; }  /* bleibt rechts, auch ohne Kapitelpfeile */
 .meta .pg { color: var(--red); font-weight: 700; font-size: 22.5px; }
 body.cover .dhbw-footer { display: none; }
 
@@ -534,3 +535,29 @@ html.print-pdf .meta .pg { display: none; }
 .reveal table.orga td > :last-child  { margin-bottom: 0; }
 .reveal table.orga ul { margin: 0 0 0 1.1em; }
 .reveal table.orga li { margin: .1em 0; }
+
+/* ---- Vollbild-Knopf (links neben den Chalkboard-Knöpfen) ----
+   Symbole wie Quartos Chalkboard-Knöpfe als SVG-Hintergrund in DHBW-Rot. */
+.reveal .slide-chalkboard-buttons.dhbw-tools {
+  position: fixed; left: 12px; bottom: 8px; z-index: 30; font-size: 24px;
+}
+.reveal .slide-chalkboard-buttons > span.dhbw-fullscreen { margin-right: 14px; cursor: pointer; }
+.reveal .slide-chalkboard-buttons .fa-dhbw-expand::before,
+.reveal .slide-chalkboard-buttons .fa-dhbw-compress::before {
+  display: inline-block; content: "";
+  height: 1.45rem; width: 1.45rem; background-size: 1.45rem 1.45rem;
+  background-repeat: no-repeat; vertical-align: 0.1em;
+}
+.reveal .slide-chalkboard-buttons .fa-dhbw-expand::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23E0001A" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1h-4zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zM.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5zm15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5z"/></svg>');
+}
+.reveal .slide-chalkboard-buttons .fa-dhbw-compress::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23E0001A" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5zM0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zm10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4z"/></svg>');
+}
+@media screen and (max-width: 800px) {
+  .reveal .slide-chalkboard-buttons .fa-dhbw-expand::before,
+  .reveal .slide-chalkboard-buttons .fa-dhbw-compress::before {
+    height: 0.95rem; width: 0.95rem; background-size: 0.95rem 0.95rem; vertical-align: 0;
+  }
+}
+html.print-pdf .reveal .slide-chalkboard-buttons.dhbw-tools { display: none; }

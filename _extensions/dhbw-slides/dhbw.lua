@@ -54,9 +54,9 @@ function Meta(meta)
   -- Konfiguration aus dem YAML-Block  dhbw:  in die Seite schreiben
   local cfg = meta.dhbw or {}
   local chapters = as_strings(cfg.chapters)
-  local author = pandoc.utils.stringify(cfg.author or meta.author or "")
+  local author = pandoc.utils.stringify(cfg.author or meta.author or "Prof. Dr. M. Bergau")
   local chapter = pandoc.utils.stringify(cfg.chapter or "")
-  -- Kapitelpfeile: dhbw.crumbs true/false; ohne Angabe nur bei mehr als einem Kapitel
+  -- Kapitelpfeile: nur mit dhbw.crumbs: true (Vorgabe: aus)
   local crumbs = cfg.crumbs
   if crumbs ~= nil and type(crumbs) ~= "boolean" then
     crumbs = pandoc.utils.stringify(crumbs) == "true"
