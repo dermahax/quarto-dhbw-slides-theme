@@ -343,6 +343,35 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal table.cmp tbody tr { background: none; border: none; }
 .reveal table.cmp caption { display: none; }
 
+/* ---- Standardtabelle (ab 1.11): Kopfband + Streifen ----
+   Gilt für jede Markdown-Tabelle ohne eigene Klasse (.cmp/.orga bleiben, wie sie
+   sind). Kopf grau mit rotem Titel wie die Blocktitel, Zeilen abwechselnd hell-
+   grau, Spalten durch weiße Fugen getrennt.
+   [Text]{.unter} setzt eine zweite Zeile darunter – im Kopf kleiner und normal
+   (z. B. „OPEN als Queue / Stack“), in Zellen die Erklärung unter dem fetten
+   Namen:  | **BFS** (Queue) [findet das flachste Ziel]{.unter} |            */
+.reveal .slides table:not(.cmp):not(.orga) {
+  border-collapse: collapse; margin: 22px auto 10px;
+  font-size: $dhbw-box-font-size; background: none;
+}
+.reveal .slides table:not(.cmp):not(.orga) th,
+.reveal .slides table:not(.cmp):not(.orga) td {
+  padding: 12px 24px; vertical-align: top; line-height: 1.3; border: none;
+}
+.reveal .slides table:not(.cmp):not(.orga) th + th,
+.reveal .slides table:not(.cmp):not(.orga) td + td { border-left: 6px solid #fff; }
+.reveal .slides table:not(.cmp):not(.orga) thead th {
+  background: var(--blk-title); color: var(--red); font-weight: 700;
+}
+.reveal .slides table:not(.cmp):not(.orga) tbody tr:nth-child(odd) td,
+.reveal .slides table:not(.cmp):not(.orga) tbody tr:nth-child(odd) th { background: var(--blk-body); }
+.reveal .slides table:not(.cmp):not(.orga) tbody th { color: var(--red); }
+.reveal .slides table:not(.cmp):not(.orga) caption { color: var(--ink); font-size: 28.5px; padding-bottom: 6px; }
+.reveal .slides table:not(.cmp):not(.orga) td > :first-child { margin-top: 0; }
+.reveal .slides table:not(.cmp):not(.orga) td > :last-child  { margin-bottom: 0; }
+.reveal table .unter { display: block; font-size: .87em; }
+.reveal table th .unter { font-weight: 400; color: var(--ink); font-size: .78em; margin-top: 2px; }
+
 /* ---- Eingebetteter Editor / iframe-Folie ---- */
 .reveal .iframe-wrap { display: flex; justify-content: center; margin-top: 6px; }
 .reveal .iframe-wrap iframe {

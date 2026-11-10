@@ -212,6 +212,8 @@ Begriff                                          Definitionsliste = Steckbrief
 ::: {.notes} … :::                                         Sprechernotizen (Taste S)
 ::: {.incremental} - … :::                                 Liste Punkt für Punkt
 [rot]{.hl}   [kleiner]{.small}                             Hervorhebung / Kleindruck
+| **BFS** [flachstes Ziel]{.unter} |                      Tabelle: zweite Zeile in der Zelle
+: {.cmp}  (Zeile unter der Tabelle)                      Tabelle schlicht mit Linien statt Kopfband
 ::: {.texfig} ![](figures/bild.svg){.fig width="400"} :::  zentrierte Abbildung
 ```
 
@@ -259,6 +261,13 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.11.0** – Neues Standardlayout für Tabellen (Mockup A „Kopfband +
+  Streifen“): Jede Markdown-Tabelle ohne eigene Klasse bekommt einen grauen
+  Kopf mit rotem Titel wie die Blocktitel, abwechselnd hellgraue Zeilen und
+  weiße Fugen zwischen den Spalten, Schrift 34,5 px wie die Blöcke. Neu:
+  `[Text]{.unter}` setzt in einer Zelle eine zweite Zeile darunter (im Kopf
+  kleiner und normal, z. B. „OPEN als Queue / Stack“). `.cmp` und `.orga`
+  bleiben unverändert.
 - **1.10.2** – PDF-Export: Jede Schritt-Animation erscheint nur noch auf einer
   Seite statt auf einer Seite pro Schritt. Leere Fragmente (die unsichtbaren
   Schritt-Marken der Animationen) werden im Druck zu normalen Elementen, echte
