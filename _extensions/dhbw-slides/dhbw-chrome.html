@@ -248,6 +248,7 @@
         window.addEventListener('message', function (ev) {
           if (typeof ev.data !== 'string' || ev.data.indexOf('reveal-notes') < 0) return;
           try { addSpeakerLayout(ev.source); } catch (e) {}
+          try { addNotesOverlay(ev.source); } catch (e) {}
         });
       }
     }
@@ -292,6 +293,81 @@
       dd.addEventListener('change', function () { setTimeout(fixLabel, 0); });
       // reveal.js merkt sich das Layout; war es zuletzt unseres, Beschriftung setzen
       fixLabel();
+    }
+
+    // --- Speaker-Ansicht: Ein Link in den Notes mit der Klasse .notes-overlay
+    //     oeffnet sein Ziel (z. B. eine Animation aus figures/) als
+    //     Ueberlagerung im Speaker-Fenster statt in einem neuen Tab - man
+    //     bleibt in den Folien. Schliessen mit dem Knopf, Klick daneben oder
+    //     Esc. Solange die Ueberlagerung den Fokus hat, gehen die Pfeiltasten
+    //     an die Animation und blaettern nicht in den Folien.
+    //     In der .qmd:  [Animation oeffnen](figures/x/y.html){.notes-overlay target="_blank"}
+    //     (target ist nur der Rueckfall fuer Decks ohne dieses Theme.) ---
+    var OVERLAY_ID = 'dhbw-notes-overlay';
+    var OVERLAY_CSS =
+      '#' + OVERLAY_ID + ' { position: fixed; top: 0; left: 0; width: 100%; height: 100%;' +
+      '  z-index: 10000; background: rgba(0,0,0,0.8); }' +
+      '#' + OVERLAY_ID + ' iframe { position: absolute; top: 48px; left: 1%; width: 98%;' +
+      '  height: calc(100% - 58px); border: 0; border-radius: 6px; background: #fff; }' +
+      '#' + OVERLAY_ID + ' button { position: absolute; top: 8px; right: 1%; height: 32px;' +
+      '  padding: 0 14px; font: 600 15px/1 Helvetica, Arial, sans-serif; color: #1c1c1c;' +
+      '  background: #fff; border: 0; border-radius: 6px; cursor: pointer; }' +
+      '.speaker-controls-notes a.notes-overlay { display: inline-block; padding: 4px 12px;' +
+      '  border-radius: 6px; background: #e2001a; color: #fff; text-decoration: none;' +
+      '  font-weight: 600; cursor: pointer; }';
+
+    function addNotesOverlay(win) {
+      if (!win || win === window || win.closed) return;
+      var doc = win.document;  // wirft bei fremden Fenstern -> ignoriert
+      if (!doc.body || doc.getElementById('dhbw-overlay-css')) return;
+
+      var st = doc.createElement('style');
+      st.id = 'dhbw-overlay-css';
+      st.textContent = OVERLAY_CSS;
+      doc.head.appendChild(st);
+
+      var close = function () {
+        var o = doc.getElementById(OVERLAY_ID);
+        if (o && o.parentNode) o.parentNode.removeChild(o);
+      };
+      var onEsc = function (ev) {
+        if (ev.key !== 'Escape' || !doc.getElementById(OVERLAY_ID)) return;
+        ev.preventDefault();
+        ev.stopPropagation();
+        close();
+      };
+
+      doc.addEventListener('click', function (ev) {
+        var a = ev.target && ev.target.closest ? ev.target.closest('a.notes-overlay[href]') : null;
+        if (!a) return;
+        ev.preventDefault();
+        ev.stopPropagation();
+        close();
+        // relativ zur Praesentation aufloesen (das Speaker-Fenster ist about:blank)
+        var url;
+        try { url = new URL(a.getAttribute('href'), location.href).href; } catch (e) { url = a.href; }
+
+        var o = doc.createElement('div');
+        o.id = OVERLAY_ID;
+        var btn = doc.createElement('button');
+        btn.type = 'button';
+        btn.textContent = '\u2715 Schlie\u00dfen (Esc)';
+        btn.onclick = close;
+        var frame = doc.createElement('iframe');
+        frame.setAttribute('title', a.textContent || 'Animation');
+        frame.addEventListener('load', function () {
+          try { frame.contentWindow.focus(); } catch (e) {}
+          // gleiche Herkunft (quarto preview): Esc auch innerhalb der Animation
+          try { frame.contentWindow.document.addEventListener('keydown', onEsc, true); } catch (e) {}
+        });
+        frame.src = url;
+        o.appendChild(btn);
+        o.appendChild(frame);
+        o.addEventListener('click', function (e) { if (e.target === o) close(); });
+        doc.body.appendChild(o);
+      }, true);
+
+      doc.addEventListener('keydown', onEsc, true);
     }
 
     // --- Vollbild-Knopf links neben den Chalkboard-Knoepfen (fuer Tablet

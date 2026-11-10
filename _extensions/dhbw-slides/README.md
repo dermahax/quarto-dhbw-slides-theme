@@ -261,6 +261,13 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.12.0** – Speaker-Ansicht: Ein Link in den Notes mit der Klasse
+  `.notes-overlay` öffnet sein Ziel als Überlagerung im Speaker-Fenster statt
+  in einem neuen Tab, z. B. eine Schritt-Animation aus `figures/`:
+  `[▶ Animation öffnen](figures/kapitel/name.html){.notes-overlay target="_blank"}`.
+  Schließen mit dem Knopf, Klick daneben oder Esc. Solange die Überlagerung den
+  Fokus hat, steuern die Pfeiltasten die Animation und blättern nicht in den
+  Folien. Der Link erscheint in den Notes als roter Knopf.
 - **1.11.0** – Neues Standardlayout für Tabellen (Mockup A „Kopfband +
   Streifen“): Jede Markdown-Tabelle ohne eigene Klasse bekommt einen grauen
   Kopf mit rotem Titel wie die Blocktitel, abwechselnd hellgraue Zeilen und
