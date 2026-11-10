@@ -267,7 +267,9 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
   `[▶ Animation öffnen](figures/kapitel/name.html){.notes-overlay target="_blank"}`.
   Schließen mit dem Knopf, Klick daneben oder Esc. Solange die Überlagerung den
   Fokus hat, steuern die Pfeiltasten die Animation und blättern nicht in den
-  Folien. Der Link erscheint in den Notes als roter Knopf.
+  Folien. Der Link erscheint in den Notes als roter Knopf. Damit Esc auch bei
+  direkt geöffneter HTML-Datei (file://) schließt, meldet die Animation die
+  Taste selbst: `window.parent.postMessage(JSON.stringify({namespace: 'dhbw-overlay', type: 'close'}), '*')`.
 - **1.11.0** – Neues Standardlayout für Tabellen (Mockup A „Kopfband +
   Streifen“): Jede Markdown-Tabelle ohne eigene Klasse bekommt einen grauen
   Kopf mit rotem Titel wie die Blocktitel, abwechselnd hellgraue Zeilen und

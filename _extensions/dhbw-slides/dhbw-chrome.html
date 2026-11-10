@@ -300,7 +300,10 @@
     //     Ueberlagerung im Speaker-Fenster statt in einem neuen Tab - man
     //     bleibt in den Folien. Schliessen mit dem Knopf, Klick daneben oder
     //     Esc. Solange die Ueberlagerung den Fokus hat, gehen die Pfeiltasten
-    //     an die Animation und blaettern nicht in den Folien.
+    //     an die Animation und blaettern nicht in den Folien. Damit Esc auch
+    //     bei direkt geoeffneter Datei (file://) wirkt, sendet die Animation
+    //     bei Esc  window.parent.postMessage(JSON.stringify(
+    //     {namespace: 'dhbw-overlay', type: 'close'}), '*').
     //     In der .qmd:  [Animation oeffnen](figures/x/y.html){.notes-overlay target="_blank"}
     //     (target ist nur der Rueckfall fuer Decks ohne dieses Theme.) ---
     var OVERLAY_ID = 'dhbw-notes-overlay';
@@ -368,6 +371,15 @@
       }, true);
 
       doc.addEventListener('keydown', onEsc, true);
+      // Bei file:// ist die Animation ein fremdes Fenster, ihre Tasten kommen
+      // hier nicht an. Sie meldet Esc deshalb selbst per postMessage.
+      win.addEventListener('message', function (ev) {
+        if (typeof ev.data !== 'string' || ev.data.indexOf('dhbw-overlay') < 0) return;
+        try {
+          var d = JSON.parse(ev.data);
+          if (d && d.namespace === 'dhbw-overlay' && d.type === 'close') close();
+        } catch (e) {}
+      });
     }
 
     // --- Vollbild-Knopf links neben den Chalkboard-Knoepfen (fuer Tablet
