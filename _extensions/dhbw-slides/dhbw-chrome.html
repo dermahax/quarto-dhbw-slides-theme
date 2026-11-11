@@ -319,22 +319,20 @@
       '  border-radius: 6px; background: #e2001a; color: #fff; text-decoration: none;' +
       '  font-weight: 600; cursor: pointer; }';
 
-    function addNotesOverlay(win) {
-      if (!win || win === window || win.closed) return;
-      var doc = win.document;  // wirft bei fremden Fenstern -> ignoriert
-      if (!doc.body || doc.getElementById('dhbw-overlay-css')) return;
-
-      var st = doc.createElement('style');
-      st.id = 'dhbw-overlay-css';
-      st.textContent = OVERLAY_CSS;
-      doc.head.appendChild(st);
-
+    // Laeuft IM Speaker-Fenster (wird dort als <script> eingefuegt, nicht von
+    // hier aus als Handler angehaengt). So ueberlebt das Overlay ein Neuladen
+    // der Praesentation bei offenem Speaker-Fenster: Handler aus dem
+    // Hauptfenster waeren danach tot, und bei file:// darf das neu geladene
+    // Hauptfenster das alte Speaker-Fenster nicht mehr anfassen.
+    // Darf nur eigene Parameter, window und document benutzen.
+    function notesOverlayInSpeaker(overlayId, base) {
+      var doc = document;
       var close = function () {
-        var o = doc.getElementById(OVERLAY_ID);
+        var o = doc.getElementById(overlayId);
         if (o && o.parentNode) o.parentNode.removeChild(o);
       };
       var onEsc = function (ev) {
-        if (ev.key !== 'Escape' || !doc.getElementById(OVERLAY_ID)) return;
+        if (ev.key !== 'Escape' || !doc.getElementById(overlayId)) return;
         ev.preventDefault();
         ev.stopPropagation();
         close();
@@ -348,13 +346,13 @@
         close();
         // relativ zur Praesentation aufloesen (das Speaker-Fenster ist about:blank)
         var url;
-        try { url = new URL(a.getAttribute('href'), location.href).href; } catch (e) { url = a.href; }
+        try { url = new URL(a.getAttribute('href'), base).href; } catch (e) { url = a.href; }
 
         var o = doc.createElement('div');
-        o.id = OVERLAY_ID;
+        o.id = overlayId;
         var btn = doc.createElement('button');
         btn.type = 'button';
-        btn.textContent = '\u2715 Schlie\u00dfen (Esc)';
+        btn.textContent = '✕ Schließen (Esc)';
         btn.onclick = close;
         var frame = doc.createElement('iframe');
         frame.setAttribute('title', a.textContent || 'Animation');
@@ -373,13 +371,29 @@
       doc.addEventListener('keydown', onEsc, true);
       // Bei file:// ist die Animation ein fremdes Fenster, ihre Tasten kommen
       // hier nicht an. Sie meldet Esc deshalb selbst per postMessage.
-      win.addEventListener('message', function (ev) {
+      window.addEventListener('message', function (ev) {
         if (typeof ev.data !== 'string' || ev.data.indexOf('dhbw-overlay') < 0) return;
         try {
           var d = JSON.parse(ev.data);
           if (d && d.namespace === 'dhbw-overlay' && d.type === 'close') close();
         } catch (e) {}
       });
+    }
+
+    function addNotesOverlay(win) {
+      if (!win || win === window || win.closed) return;
+      var doc = win.document;  // wirft bei fremden Fenstern -> ignoriert
+      if (!doc.body || doc.getElementById('dhbw-overlay-css')) return;
+
+      var st = doc.createElement('style');
+      st.id = 'dhbw-overlay-css';
+      st.textContent = OVERLAY_CSS;
+      doc.head.appendChild(st);
+
+      var sc = doc.createElement('script');
+      sc.textContent = '(' + notesOverlayInSpeaker.toString() + ')(' +
+        JSON.stringify(OVERLAY_ID) + ', ' + JSON.stringify(location.href) + ');';
+      doc.head.appendChild(sc);
     }
 
     // --- Vollbild-Knopf links neben den Chalkboard-Knoepfen (fuer Tablet

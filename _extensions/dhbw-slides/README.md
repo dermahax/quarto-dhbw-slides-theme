@@ -261,6 +261,11 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.12.1** – Fehlerbehebung Speaker-Ansicht: Wurde die Präsentation neu
+  geladen (z. B. nach erneutem Rendern), während das Speaker-Fenster offen
+  blieb, öffnete ein `.notes-overlay`-Link wieder einen neuen Tab statt des
+  Overlays. Das Overlay läuft jetzt im Speaker-Fenster selbst und übersteht
+  das Neuladen (auch bei direkt geöffneter HTML-Datei, file://).
 - **1.12.0** – Speaker-Ansicht: Ein Link in den Notes mit der Klasse
   `.notes-overlay` öffnet sein Ziel als Überlagerung im Speaker-Fenster statt
   in einem neuen Tab, z. B. eine Schritt-Animation aus `figures/`:
