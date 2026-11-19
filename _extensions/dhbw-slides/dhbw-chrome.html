@@ -21,8 +21,14 @@
     //        beides, es gibt also nur noch einen Druckweg.
     //     2. Im Druck leere Fragmente (span/div ohne Inhalt) zu normalen
     //        Elementen machen: Sie aendern nichts Sichtbares, wuerden aber je
-    //        eine Seite kosten. Echte Fragmente mit Text, Bild oder Formel
-    //        bleiben eigene Seiten. ---
+    //        eine Seite kosten.
+    //     3. Folien, deren Fragmente sich nur aufbauen (Aufzaehlung, Bilder im
+    //        .r-stack, ...), werden eine Seite im Endzustand: Alle Fragmente
+    //        werden normale Elemente. Verschwindet auf der Folie etwas wieder
+    //        (fade-out, fade-in-then-out, .popup, current-visible, ...), bleibt
+    //        eine Seite pro Schritt - sonst laegen Aufgabe und Loesung
+    //        uebereinander oder Pop-ups fehlten. Folienklasse .pdf-eine-seite
+    //        erzwingt auch dort eine Seite mit allem sichtbar. ---
     var SEARCH = location.search;
     if (/(^|[?&])view=print(&|$)/i.test(SEARCH) && !/print-pdf/i.test(SEARCH)) {
       location.replace(location.href.replace(/([?&])view=print/i, '$1print-pdf'));
@@ -43,7 +49,24 @@
       });
     }
 
-    if (PRINT) dropEmptyFragments();
+    // Fragment-Effekte, nach denen etwas wieder verschwindet
+    var VERSCHWINDET = /(^|\s)(fade-out|fade-in-then-out|fade-in-then-semi-out|semi-fade-out|current-visible)(\s|$)/;
+
+    function mergeBuildUpFragments() {
+      var secs = document.querySelectorAll('.reveal .slides section');
+      Array.prototype.forEach.call(secs, function (sec) {
+        if (sec.querySelector('section')) return;   // Stapel-Huelle, nur Blaetter
+        var frs = sec.querySelectorAll('.fragment');
+        if (!frs.length) return;
+        var weg = Array.prototype.some.call(frs, function (f) {
+          return VERSCHWINDET.test(f.className);
+        });
+        if (weg && !sec.classList.contains('pdf-eine-seite')) return;
+        Array.prototype.forEach.call(frs, function (f) { f.classList.remove('fragment'); });
+      });
+    }
+
+    if (PRINT) { dropEmptyFragments(); mergeBuildUpFragments(); }
 
     // --- Kapitelleiste aus den Metadaten aufbauen und das aktive Kapitel
     //     markieren. Der Index kommt aus  dhbw.chapter  oder aus dem
@@ -219,6 +242,32 @@
 
       if (IS_PREVIEW && !peer) return;
 
+      // Malen auf der Folie (Taste C bzw. Stift-Knopf) schaltet das Plugin
+      // nur im eigenen Fenster ein, ohne "broadcast". Dann gaebe es die
+      // Farbauswahl nur dort, wo die Taste ankam - z. B. auf dem Beamer.
+      // Darum den Zustand beobachten und im anderen Fenster nachziehen.
+      var penOn = function () {
+        var n = document.getElementById('notescanvas');
+        return !!n && n.style.pointerEvents === 'auto';
+      };
+      var boardOpen = function () {
+        var c = document.getElementById('chalkboard');
+        return !!c && c.style.visibility === 'visible';
+      };
+      var watchPen = function () {
+        var n = document.getElementById('notescanvas');
+        if (!n || !window.MutationObserver) return;
+        var last = penOn();
+        new MutationObserver(function () {
+          var now = penOn();
+          if (now === last) return;
+          last = now;
+          send(peer, { namespace: NS, type: 'pen', on: now });
+        }).observe(n, { attributes: true, attributeFilter: ['style'] });
+      };
+      if (window.Reveal && Reveal.isReady && Reveal.isReady()) watchPen();
+      else if (window.Reveal && Reveal.on) Reveal.on('ready', watchPen);
+
       document.addEventListener('broadcast', function (ev) {
         if (!ev.content || ev.content.sender !== 'chalkboard-plugin') return;
         send(peer, { namespace: NS, type: 'chalk', content: ev.content });
@@ -231,6 +280,10 @@
           // Vorschau ist (neu) geladen: Zeichnungen der Folien hinschicken
           peer = ev.source;
           document.dispatchEvent(new CustomEvent('welcome'));
+          if (penOn()) send(peer, { namespace: NS, type: 'pen', on: true });
+        } else if (d.type === 'pen') {
+          var cb = window.Reveal && Reveal.getPlugin && Reveal.getPlugin('RevealChalkboard');
+          if (cb && cb.toggleNotesCanvas && penOn() !== !!d.on && !boardOpen()) cb.toggleNotesCanvas();
         } else if (d.type === 'chalk' && d.content) {
           var msg = new CustomEvent('received');
           msg.content = d.content;

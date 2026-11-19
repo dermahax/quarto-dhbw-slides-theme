@@ -1,6 +1,6 @@
 title: DHBW Slides
 author: Prof. Dr. M. Bergau
-version: 1.12.1
+version: 1.15.0
 quarto-required: ">=1.4.0"
 contributes:
   shortcodes:
@@ -38,7 +38,8 @@ contributes:
           at: post-quarto
       include-after-body: dhbw-chrome.html
 
-      # ---- PDF-Export (?print-pdf bzw. folien-pdf.ts): eine Seite pro Fragment ----
+      # ---- PDF-Export (?print-pdf bzw. folien-pdf.ts): eine Seite pro Fragment-Schritt
+      #      nur auf Folien, auf denen etwas wieder verschwindet (dhbw-chrome.html) ----
       pdf-separate-fragments: true
 
     # ---- Übungsblätter als PDF (Typst, in Quarto enthalten) ----

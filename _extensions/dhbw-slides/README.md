@@ -95,8 +95,12 @@ format:
 | `quarto preview …` / VS Code Strg+Umschalt+K    | ✓           | –          |
 
 **Folien-PDF** (`folien-pdf.ts`): druckt jede `NN-kapitel.html` mit gleichnamiger
-`.qmd` per Chrome oder Edge (headless) nach `NN-kapitel.pdf`, eine Seite pro
-Fragment-Schritt (`pdf-separate-fragments`, abschaltbar im Format). Browser wird
+`.qmd` per Chrome oder Edge (headless) nach `NN-kapitel.pdf`. Eine Folie, deren
+Fragmente sich nur aufbauen (Aufzählung, Bilder im `.r-stack`), wird eine Seite
+im Endzustand. Verschwindet auf der Folie etwas wieder (`.fade-out`,
+`.fade-in-then-out`, `.popup`, `.current-visible`), gibt es eine Seite pro
+Fragment-Schritt; die Folienklasse `{.pdf-eine-seite}` zwingt auch solche
+Folien auf eine Seite (alles sichtbar). Browser wird
 automatisch gesucht, sonst Pfad in `DHBW_PDF_BROWSER`. Ein im Viewer geöffnetes
 PDF wird mit Warnung übersprungen. Interaktive Inhalte (iframes, Widgets)
 erscheinen im PDF nur im Anfangszustand. Schritt-Animationen (Heap, Dijkstra,
@@ -215,6 +219,13 @@ Begriff                                          Definitionsliste = Steckbrief
 | **BFS** [flachstes Ziel]{.unter} |                      Tabelle: zweite Zeile in der Zelle
 : {.cmp}  (Zeile unter der Tabelle)                      Tabelle schlicht mit Linien statt Kopfband
 ::: {.texfig} ![](figures/bild.svg){.fig width="400"} :::  zentrierte Abbildung
+::: {.unterschrift} … :::                                  kleiner zentrierter Text unter Bild
+[Typ]{.zusatz}                                             kleine graue Zusatzzeile
+::: {.code-gross} Codeblock :::                            Code in Vorlesungsgröße
+::: {.fuell} … :::                                         Inhalt über Folienhöhe verteilen
+::: {.luftig} | … | :::                                    Tabelle mit mehr Zeilenabstand
+::: {.nachschlag} … :::                                    kleine graue Übersicht unten
+## Titel {.pdf-eine-seite}                                Folie im PDF auf eine Seite (alles sichtbar)
 ```
 
 Faustregel: ein `.block` pro Folie ist die Regel, zwei die Ausnahme –
@@ -261,6 +272,27 @@ die Folien austauscht (sonst stünde z. B. in Moodle-iframes rohes TeX da).
 
 ## Änderungen
 
+- **1.15.0** – Speaker-Ansicht: Malen auf der Folie (Taste `C` oder
+  Stift-Knopf) wird jetzt in Speaker-Fenster und Beamer gleichzeitig ein- und
+  ausgeschaltet. Die Farbauswahl erscheint dadurch auch in der Speaker-Ansicht,
+  egal in welchem Fenster die Taste ankam. Die Tafel (Taste `B`) war schon
+  vorher in beiden Fenstern synchron.
+- **1.14.0** – PDF-Export: Folien, deren Fragmente sich nur aufbauen
+  (Aufzählungen, Bildfolgen mit `![](…){.fragment}` im `.r-stack`), erscheinen
+  als eine Seite im Endzustand statt als eine Seite pro Schritt. Folien, auf
+  denen etwas wieder verschwindet (`.fade-out`, `.fade-in-then-out`, `.popup`,
+  `.current-visible`, `.semi-fade-out`), behalten eine Seite pro Schritt, damit
+  Aufgabe/Lösung nicht übereinanderliegen und Pop-ups nicht fehlen. Neue
+  Folienklasse `## Titel {.pdf-eine-seite}` erzwingt auch dort eine Seite mit
+  allem sichtbar (z. B. ein Pop-up mit Suchbaum, das sich am Ende schließt).
+  Eigene `.css`-Dateien mit leeren Fragmenten vor Bildern sind dafür nicht mehr nötig.
+- **1.13.0** – Hilfsklassen, die bisher als eigene `.css`-Datei neben einzelnen
+  Decks lagen, sind jetzt im Theme: `::: {.code-gross}` (Code in 38 px),
+  `::: {.fuell}` (Inhalt über die Folienhöhe verteilen), `::: {.luftig}`
+  (Tabelle mit mehr Zeilenabstand), `::: {.nachschlag}` (kleine graue
+  Übersicht), `::: {.unterschrift}` (kleiner zentrierter Text unter einem Bild)
+  und `[Text]{.zusatz}` (kleine graue Zusatzzeile). Die `css:`-Zeile im Header
+  entfällt dafür.
 - **1.12.1** – Fehlerbehebung Speaker-Ansicht: Wurde die Präsentation neu
   geladen (z. B. nach erneutem Rendern), während das Speaker-Fenster offen
   blieb, öffnete ein `.notes-overlay`-Link wieder einen neuen Tab statt des

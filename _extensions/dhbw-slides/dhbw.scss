@@ -372,6 +372,40 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal table .unter { display: block; font-size: .87em; }
 .reveal table th .unter { font-weight: 400; color: var(--ink); font-size: .78em; margin-top: 2px; }
 
+/* ---- Hilfsklassen für einzelne Folien (ab 1.13) ----
+   Vorher als eigene .css-Datei neben den Decks.
+     ::: {.code-gross}    Codeblock in Vorlesungsgröße (38 px statt 28,5 px)
+     ::: {.fuell}         Inhalt unter der Überschrift über die freie
+                          Folienhöhe verteilen statt oben kleben
+     ::: {.luftig}        Tabelle darin mit mehr Zeilenabstand
+     ::: {.nachschlag}    kleine graue Übersicht zum Nachschlagen, Linie darüber
+     ::: {.unterschrift}  kleiner, zentrierter Text unter einem Bild
+     [Text]{.zusatz}      kleine graue Zusatzzeile, z. B. der Typ über einem Wert */
+.reveal .code-gross pre,
+.reveal .code-gross pre code,
+.reveal .code-gross div.sourceCode pre code { font-size: 38px; line-height: 1.45; }
+
+// 1080 px Folie − Rand − ca. 100 px Überschrift
+.reveal .fuell {
+  min-height: 820px;
+  display: flex; flex-direction: column; justify-content: space-evenly;
+}
+.reveal .fuell > * { margin-top: 0; margin-bottom: 0; }
+
+.reveal .luftig table { margin-left: 0 !important; }
+.reveal .luftig table td {
+  padding-top: 20px !important; padding-bottom: 20px !important; line-height: 1.5 !important;
+}
+
+.reveal .nachschlag {
+  font-size: .6em; color: #58636C; line-height: 1.5;
+  border-top: 2px solid #d3d7db; padding-top: 10px;
+}
+
+.reveal .unterschrift { font-size: 0.8em; text-align: center; line-height: 1.35; }
+
+.reveal .zusatz { display: block; font-size: .72em; color: #58636C; margin: 2px 0; }
+
 /* ---- Eingebetteter Editor / iframe-Folie ---- */
 .reveal .iframe-wrap { display: flex; justify-content: center; margin-top: 6px; }
 .reveal .iframe-wrap iframe {
