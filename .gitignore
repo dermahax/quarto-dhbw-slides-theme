@@ -2,6 +2,7 @@
 /_freeze/
 *.html
 !_extensions/**/*.html
+!docs/**/*.html
 Thumbs.db
 .DS_Store
 /Claude outputs

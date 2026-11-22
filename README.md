@@ -3,7 +3,9 @@
 Quarto-Theme für Vorlesungsfolien im DHBW-Look, dazu Übungsblätter und
 Klausuren im selben Stil.
 
-![Beispielfolie: 3D-Modell eines Hochschulgebäudes, aus einem Handyvideo rekonstruiert und auf der Folie frei drehbar](figures/readme-beispielfolie.jpg)
+[![Beispielfolie: 3D-Modell eines Hochschulgebäudes, aus einem Handyvideo rekonstruiert und auf der Folie frei drehbar](figures/readme-beispielfolie.gif)](https://dermahax.github.io/quarto-dhbw-slides-theme/)
+
+**[▶ Beispielfolie live ausprobieren](https://dermahax.github.io/quarto-dhbw-slides-theme/)**: Modell drehen, zoomen, Video abspielen.
 
 ## Features
 

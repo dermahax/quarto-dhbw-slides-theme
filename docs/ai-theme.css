@@ -1,0 +1,15 @@
+/* Logo-Folie: vier Logos als Raute, weit auseinander */
+.reveal .slides section.logos > h2:empty { display: none; }
+.reveal .slides section.logos > div[class^="lg-"] {
+  position: absolute; width: 240px; height: 240px; margin: 0;
+}
+.reveal .slides section.logos > div[class^="lg-"] p { margin: 0; }
+.reveal .slides section.logos > div[class^="lg-"] img { width: 240px; height: 240px; margin: 0; object-fit: contain; }
+.reveal .slides section.logos > .lg-github { left: 840px;  top: 90px; }
+.reveal .slides section.logos > .lg-quarto { left: 330px;  top: 420px; }
+.reveal .slides section.logos > .lg-openai { left: 1350px; top: 420px; }
+.reveal .slides section.logos > .lg-dhbw   { left: 840px;  top: 750px; }
+.reveal .slides section.logos > div[class^="lg-"] a { display: block; }
+
+/* Speaker Notes: Grafik in voller Breite */
+.speaker-controls-notes img, aside.notes img { width: 100%; height: auto; }
