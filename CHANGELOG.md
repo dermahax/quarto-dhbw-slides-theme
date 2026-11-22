@@ -2,6 +2,11 @@
 
 Versionshistorie des Themes `dhbw-slides`, neueste Version oben.
 
+- **1.16.0** – Folien-PDF auch beim Rendern einer einzelnen Datei:
+  `quarto render 03-kapitel.qmd` erzeugt jetzt neben dem HTML auch
+  `03-kapitel.pdf`, nicht mehr nur das Rendern des ganzen Projekts. In der
+  Vorschau (`quarto preview`, VS Code Strg+Umschalt+K) entsteht weiterhin kein
+  PDF, damit das Speichern schnell bleibt; `--profile pdf` erzwingt es dort.
 - **1.15.0** – Speaker-Ansicht: Malen auf der Folie (Taste `C` oder
   Stift-Knopf) wird jetzt in Speaker-Fenster und Beamer gleichzeitig ein- und
   ausgeschaltet. Die Farbauswahl erscheint dadurch auch in der Speaker-Ansicht,

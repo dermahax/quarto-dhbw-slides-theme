@@ -8,9 +8,12 @@
 //
 // Wann entstehen PDFs?
 //   quarto render                                  ganzes Projekt -> ja
-//   quarto render 03-kapitel.qmd                   eine Datei     -> nein
+//   quarto render 03-kapitel.qmd                   eine Datei     -> ja
 //   quarto preview / VS Code Strg+Umschalt+K                      -> nein
-//   quarto render 03-kapitel.qmd --profile pdf     erzwingen      -> ja
+//   quarto preview … --profile pdf                 erzwingen      -> ja
+//
+// Die Vorschau wird am Aufruf des Quarto-Prozesses erkannt, der dieses Skript
+// startet („quarto … preview“). Klappt das nicht, entsteht das PDF.
 //
 // Gedruckt werden nur reveal.js-Ausgaben mit gleichnamiger .qmd; Hilfsdokumente
 // aus .md-Dateien bleiben außen vor. Eine Seite pro Fragment-Schritt regelt
@@ -21,12 +24,48 @@
 // wird automatisch gesucht; anderer Pfad über die Umgebungsvariable
 // DHBW_PDF_BROWSER.
 
-const renderAll = Deno.env.get("QUARTO_PROJECT_RENDER_ALL") === "1";
+const win = Deno.build.os === "windows";
+const sep = win ? "\\" : "/";
+
+// Läuft gerade `quarto preview`? Quarto gibt Post-Render-Skripten dafür keine
+// Variable mit, also wird die Befehlszeile des aufrufenden Prozesses gelesen.
+function istVorschau(): boolean {
+  let befehl = "";
+  try {
+    const ppid = Deno.ppid;
+    if (win) {
+      const out = new Deno.Command("powershell", {
+        args: [
+          "-NoProfile",
+          "-NonInteractive",
+          "-Command",
+          `(Get-CimInstance Win32_Process -Filter "ProcessId=${ppid}").CommandLine`,
+        ],
+        stdout: "piped",
+        stderr: "null",
+      }).outputSync();
+      befehl = new TextDecoder().decode(out.stdout);
+    } else if (Deno.build.os === "linux") {
+      befehl = Deno.readTextFileSync(`/proc/${ppid}/cmdline`).replace(/\0/g, " ");
+    } else {
+      const out = new Deno.Command("ps", {
+        args: ["-o", "command=", "-p", String(ppid)],
+        stdout: "piped",
+        stderr: "null",
+      }).outputSync();
+      befehl = new TextDecoder().decode(out.stdout);
+    }
+  } catch {
+    return false;
+  }
+  return /quarto(\.js)?["']?\s+preview(\s|$)/i.test(befehl);
+}
+
 const profilPdf = (Deno.env.get("QUARTO_PROFILE") ?? "")
   .split(",")
   .map((s) => s.trim())
   .includes("pdf");
-if (!renderAll && !profilPdf) Deno.exit(0);
+if (!profilPdf && istVorschau()) Deno.exit(0);
 
 const listFile = Deno.env.get("QUARTO_USE_FILE_FOR_PROJECT_OUTPUT_FILES");
 const outputs = (listFile
@@ -35,9 +74,6 @@ const outputs = (listFile
   .split(/\r?\n/)
   .map((s) => s.trim())
   .filter((s) => s.length > 0);
-
-const win = Deno.build.os === "windows";
-const sep = win ? "\\" : "/";
 
 function exists(path: string): boolean {
   try {

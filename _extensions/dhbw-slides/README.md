@@ -90,9 +90,9 @@ format:
 | Befehl                                          | Folien-HTML | Folien-PDF |
 |-------------------------------------------------|-------------|------------|
 | `quarto render`                                 | ✓           | ✓          |
-| `quarto render 03-kapitel.qmd`                  | ✓           | –          |
-| `quarto render 03-kapitel.qmd --profile pdf`    | ✓           | ✓          |
+| `quarto render 03-kapitel.qmd`                  | ✓           | ✓          |
 | `quarto preview …` / VS Code Strg+Umschalt+K    | ✓           | –          |
+| `quarto preview … --profile pdf`                | ✓           | ✓          |
 
 **Folien-PDF** (`folien-pdf.ts`): druckt jede `NN-kapitel.html` mit gleichnamiger
 `.qmd` per Chrome oder Edge (headless) nach `NN-kapitel.pdf`. Eine Folie, deren
