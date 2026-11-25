@@ -45,20 +45,20 @@ Chrome sich das für diese Datei.
 
 ## Die vier Blöcke
 
-::: {.block .normal data-title="normal — der graue Standardblock"}
+::: {.block .normal data-title="normal — der Standardblock"}
 Für alles Normale: Definitionen, Erklärungen, Aufzählungen.
 :::
 
 ::: {.block .example data-title="example — für Beispiele"}
-Etwas heller, mit grauem Titel.
+Grauer Strich, grauer Titel.
 :::
 
 ::: {.block .alert data-title="alert — für Warnungen und Aufgaben"}
-Rot hinterlegt. Für Merksätze, Fallstricke, Übungsaufgaben.
+Roter Strich, dunkelroter Titel. Für Merksätze, Fallstricke, Übungsaufgaben.
 :::
 
 ::: {.block .info data-title="info — für Hinweise am Rande"}
-Blau hinterlegt. Für Exkurse, Querverweise, Hintergrundwissen.
+Blauer Strich mit Glühbirne. Für Exkurse, Querverweise, Hintergrundwissen.
 :::
 
 ::: {.notes}

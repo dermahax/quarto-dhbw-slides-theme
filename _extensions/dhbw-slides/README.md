@@ -196,10 +196,10 @@ Seitenzahl im ersten Hinweis zählt automatisch mit. Beispiel:
 ## Syntax-Spickzettel
 
 ```markdown
-::: {.block .normal data-title="Definition"}     grauer Standardblock
-::: {.block .example data-title="Beispiel"}      Beispielblock
-::: {.block .alert data-title="Aufgabe"}         roter Block
-::: {.block .info data-title="Hinweis"}          blauer Block
+::: {.block .normal data-title="Definition"}     Standardblock, roter Strich
+::: {.block .example data-title="Beispiel"}      Beispielblock, grauer Strich
+::: {.block .alert data-title="Aufgabe"}         Aufgabe/Warnung, dunkelroter Titel
+::: {.block .info data-title="Hinweis"}          blauer Strich, Glühbirne
 
 ::: {.leitfrage data-title="Die Frage"}          Einstiegsfrage, groß, ohne Kasten
 ::: {.sec data-title="Heute"}                    Abschnitt mit roter Überschrift

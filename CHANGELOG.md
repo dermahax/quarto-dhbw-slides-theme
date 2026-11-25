@@ -2,6 +2,13 @@
 
 Versionshistorie des Themes `dhbw-slides`, neueste Version oben.
 
+- **1.17.0** – Neues Aussehen der Blöcke (`.normal`, `.example`, `.alert`,
+  `.info`): weiße Karte mit farbigem Strich links (wie Frametitel und
+  Merksatz), feinem grauem Rand und weichem Schatten; der Titel steht in der
+  Typfarbe ohne graues Band. Rot = normal, Grau = example, Dunkelrot = alert,
+  Blau mit Glühbirne = info. Abstände und Schriftgrößen sind unverändert, die
+  Blöcke brauchen genau so viel Platz wie vorher. Gilt auch für Alt-Blöcke mit
+  `.bt`/`.bb` und für `.block .popup`. Neu rendern genügt.
 - **1.16.0** – Folien-PDF auch beim Rendern einer einzelnen Datei:
   `quarto render 03-kapitel.qmd` erzeugt jetzt neben dem HTML auch
   `03-kapitel.pdf`, nicht mehr nur das Rendern des ganzen Projekts. In der

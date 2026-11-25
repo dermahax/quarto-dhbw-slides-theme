@@ -93,36 +93,38 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .small p:last-child { margin-bottom: 0; }
 .reveal .mt    { margin-top: 18px; }
 
-/* ---- Blöcke: ein fenced div, Titel als data-title ---- */
+/* ---- Blöcke: ein fenced div, Titel als data-title ----
+   Seit 1.17: weiße Karte mit farbigem Strich links (wie Frametitel und
+   Merksatz), feinem Rand und weichem Schatten. Strich und Rand sind
+   box-shadows, kosten also keinen Platz. Pro Typ nur zwei Farben:
+   --c = Strich, --t = Titel. */
 .reveal .block {
-  border-radius: 13.5px;
+  --c: var(--red);
+  --t: var(--red);
+  border-radius: 4px 9px 9px 4px;
   overflow: hidden;
-  box-shadow: 0 3px 10.5px rgba(0, 0, 0, .16);
+  box-shadow: inset 7.5px 0 0 var(--c), 0 0 0 1.5px #e6e8ea, 0 6px 18px rgba(0, 0, 0, .07);
   margin: 18px 0;
-  padding: 16.5px 22.5px;
+  padding: 16.5px 22.5px 16.5px 30px;
   font-size: $dhbw-box-font-size;
-  background: var(--blk-body);
+  background: #fff;
 }
 .reveal .block[data-title]::before {
   content: attr(data-title);
   display: block;
-  margin: -16.5px -22.5px 16.5px;
-  padding: 9px 22.5px;
+  margin: -16.5px -22.5px 16.5px -30px;
+  padding: 9px 22.5px 9px 30px;
   font-weight: 700;
   font-size: $dhbw-box-font-size;
-  background: var(--blk-title);
-  color: var(--red);
+  color: var(--t);
 }
-.reveal .block.example              { background: var(--ex-body); }
-.reveal .block.example[data-title]::before { background: var(--ex-title); color: var(--ink); }
-.reveal .block.alert                { background: var(--al-body); }
-.reveal .block.alert[data-title]::before   { background: var(--al-title); color: var(--darkred); }
-.reveal .block.info                 { background: var(--inf-body); }
+.reveal .block.example { --c: var(--gray);     --t: var(--gray); }
+.reveal .block.alert   { --c: var(--red);      --t: var(--darkred); }
+.reveal .block.info    { --c: var(--darkblue); --t: var(--darkblue); }
 .reveal .block.info[data-title]::before {
-  background: var(--inf-title) var(--bulb) no-repeat 22.5px center;
+  background: var(--bulb) no-repeat 30px center;
   background-size: 30px 30px;
-  padding-left: 63px;
-  color: var(--darkblue);
+  padding-left: 70px;
 }
 
 .reveal .block > :first-child { margin-top: 0; }
@@ -131,23 +133,15 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 
 /* ---- Alt-Klassen: Blöcke, die als rohes HTML aus den früheren Decks
        übernommen wurden, benutzen weiterhin .bt / .bb ---- */
-.reveal .block > .bt { padding: 9px 22.5px; font-weight: 700; font-size: $dhbw-box-font-size; }
-.reveal .block > .bb { padding: 16.5px 22.5px; font-size: $dhbw-box-font-size; }
-.reveal .block.normal  > .bt { background: var(--blk-title); color: var(--red); }
-.reveal .block.normal  > .bb { background: var(--blk-body); }
-.reveal .block.example > .bt { background: var(--ex-title); color: var(--ink); }
-.reveal .block.example > .bb { background: var(--ex-body); }
-.reveal .block.alert   > .bt { background: var(--al-title); color: var(--darkred); }
-.reveal .block.alert   > .bb { background: var(--al-body); }
-.reveal .block.info    > .bt {
-  background: var(--inf-title) var(--bulb) no-repeat 22.5px center;
+.reveal .block > .bt { padding: 9px 22.5px 9px 30px; font-weight: 700; font-size: $dhbw-box-font-size; color: var(--t); }
+.reveal .block > .bb { padding: 16.5px 22.5px 16.5px 30px; font-size: $dhbw-box-font-size; }
+.reveal .block.info > .bt {
+  background: var(--bulb) no-repeat 30px center;
   background-size: 30px 30px;
-  padding-left: 63px;
-  color: var(--darkblue);
+  padding-left: 70px;
 }
-.reveal .block.info    > .bb { background: var(--inf-body); }
-/* enthält ein Block .bt/.bb, übernimmt der innere Teil Hintergrund und Polsterung */
-.reveal .block:has(> .bt), .reveal .block:has(> .bb) { padding: 0; background: none; }
+/* enthält ein Block .bt/.bb, übernimmt der innere Teil die Polsterung */
+.reveal .block:has(> .bt), .reveal .block:has(> .bb) { padding: 0; }
 .reveal .block .bb > :first-child { margin-top: 0; }
 .reveal .block .bb > :last-child  { margin-bottom: 0; }
 
@@ -203,6 +197,10 @@ html:not(.print-pdf) .reveal .slides section { height: 100%; }
 .reveal .slides section .popup:not(.block) {
   background: #fff;
   padding: 14px;
+}
+.reveal .slides section .block.popup {
+  border-radius: 4px 10px 10px 4px;
+  box-shadow: inset 7.5px 0 0 var(--c), 0 0 0 1.5px #e6e8ea, 0 8px 30px rgba(0, 0, 0, .35);
 }
 .reveal .slides section .block.popup[data-title]::before { text-align: left; }
 .reveal .popup > :first-child { margin-top: 0; }
