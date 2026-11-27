@@ -2,6 +2,14 @@
 
 Versionshistorie des Themes `dhbw-slides`, neueste Version oben.
 
+- **1.21.0** – Inhalt vertikal mittig: Auf Folien ohne Fragmente steht der
+  Inhalt unter dem Frametitel jetzt mittig in der freien Höhe statt oben
+  angeklebt, auch im PDF. Folien mit Fragmenten (`.fragment`, `.incremental`,
+  `.popup`, `. . .`) bleiben oben bündig, damit beim Aufdecken nichts springt;
+  ebenso Folien mit einem Bild direkt auf der Folie (Quartos automatisches
+  Strecken) und `.vollbild`. Füllt der Inhalt die Folie, ändert sich nichts.
+  Abschalten pro Folie mit `## Titel {.oben}`. Umgesetzt in `dhbw.lua` und
+  `dhbw.scss`, neu rendern genügt.
 - **1.20.0** – Die Profil-Datei für `--profile interactive` kommt jetzt von
   selbst ins Vorlesungsprojekt: `folien-pdf.ts` legt beim Rendern
   `_quarto-interactive.yml` neben die `_quarto.yml`, wenn sie dort fehlt

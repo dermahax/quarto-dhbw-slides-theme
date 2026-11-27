@@ -236,6 +236,7 @@ Begriff                                          Definitionsliste = Steckbrief
 ::: {.luftig} | … | :::                                    Tabelle mit mehr Zeilenabstand
 ::: {.nachschlag} … :::                                    kleine graue Übersicht unten
 ## Titel {.pdf-eine-seite}                                Folie im PDF auf eine Seite (alles sichtbar)
+## Titel {.oben}                                          Inhalt oben statt vertikal mittig (Standard ohne Fragmente)
 ```
 
 Faustregel: ein `.block` pro Folie ist die Regel, zwei die Ausnahme –

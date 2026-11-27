@@ -554,6 +554,22 @@ html:not(.print-pdf) .reveal-viewport:not(.reveal-scroll) .reveal:has(> .backgro
 .meta .pg { color: var(--red); font-weight: 700; font-size: 22.5px; }
 body.cover .dhbw-footer { display: none; }
 
+/* ---- Inhalt vertikal mittig (dhbw.lua: .dhbw-mitte / .dhbw-inhalt) ----
+   Folien ohne Fragmente: Der Inhalt unter dem Frametitel steht mittig in der
+   freien Höhe. Opt-out: ## Titel {.oben}. reveal.js blendet entfernte Folien
+   per Inline-Style display:none aus, das bleibt erhalten. */
+.reveal .slides section.dhbw-mitte:not([style*="display: none"]) {
+  display: flex !important;
+  flex-direction: column;
+}
+html.print-pdf .reveal .slides section.dhbw-mitte { height: 1080px; padding-bottom: 87px; }
+.reveal .slides section.dhbw-mitte > .dhbw-inhalt {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.reveal .slides section.dhbw-mitte > .dhbw-inhalt > :first-child { margin-top: 0; }
+.reveal .slides section.dhbw-mitte > .dhbw-inhalt > :last-child  { margin-bottom: 0; }
+
 /* ---- Vollbildfolie: ## {.vollbild} ----
    Kein Rand, kein Frametitel, keine Fußzeile und kein Logo: Der Inhalt
    (iframe, 3D-Viewer, Video …) füllt die ganze 1920 x 1080-Folie. */

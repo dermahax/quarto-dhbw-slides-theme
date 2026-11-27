@@ -114,3 +114,95 @@ function Div(el)
   c:insert("fade-in-then-out")
   return el
 end
+
+-- Inhalt vertikal mittig: Eine Folie ohne Fragmente bekommt die Klasse
+-- .dhbw-mitte, ihr Inhalt unter dem Frametitel wird in ein Div .dhbw-inhalt
+-- gepackt, das dhbw.scss in der freien Höhe zentriert. Folien mit Fragmenten
+-- bleiben oben bündig (sonst springt der Inhalt beim Aufdecken), ebenso
+-- Folien mit einem Bild direkt auf der Folie (Quartos Auto-Stretch braucht es
+-- dort als direktes Kind) und Folien mit .oben, .vollbild oder .center.
+-- Ist der Inhalt höher als der freie Platz, sieht die Folie aus wie vorher.
+local AUSNAHMEN = { "oben", "vollbild", "center", "r-fit-text", "pdf-eine-seite" }
+local FRAGMENT_KLASSEN = { "fragment", "incremental", "r-stretch" }
+
+local function hat_klasse(classes, liste)
+  for _, k in ipairs(liste) do
+    if classes:includes(k) then return true end
+  end
+  return false
+end
+
+local function ist_pause(b)
+  -- ". . ." in einer eigenen Zeile = Pause in reveal.js
+  return b.t == "Para" and pandoc.utils.stringify(b):gsub("%s", "") == "..."
+end
+
+local function ist_bild(b)
+  if b.t == "Figure" then return true end
+  if (b.t == "Para" or b.t == "Plain") and #b.content == 1 and b.content[1].t == "Image" then
+    return true
+  end
+  return false
+end
+
+local function hat_fragmente(blocks, listen_inkrementell)
+  local gefunden = false
+  local function pruefe_attr(el)
+    if el.attr and hat_klasse(el.attr.classes, FRAGMENT_KLASSEN) then gefunden = true end
+    if el.attr and el.attr.classes:includes("popup") and not el.attr.classes:includes("static") then
+      gefunden = true
+    end
+  end
+  for _, b in ipairs(blocks) do
+    if ist_pause(b) then gefunden = true end
+  end
+  pandoc.Div(blocks):walk({
+    Div = pruefe_attr, Span = pruefe_attr, Image = pruefe_attr,
+    CodeBlock = pruefe_attr, Table = function(t) pruefe_attr(t) end,
+    Header = pruefe_attr,
+    RawBlock = function(r) if r.text:find("fragment") then gefunden = true end end,
+    RawInline = function(r) if r.text:find("fragment") then gefunden = true end end,
+    BulletList = function() if listen_inkrementell then gefunden = true end end,
+    OrderedList = function() if listen_inkrementell then gefunden = true end end,
+  })
+  return gefunden
+end
+
+local function ist_notes(b)
+  return b.t == "Div" and b.classes:includes("notes")
+end
+
+function Pandoc(doc)
+  if not quarto.doc.is_format("revealjs") then return nil end
+  local listen_inkrementell = doc.meta.incremental == true
+    or pandoc.utils.stringify(doc.meta.incremental or "") == "true"
+  local raus = pandoc.Blocks({})
+  local i, n = 1, #doc.blocks
+  while i <= n do
+    local b = doc.blocks[i]
+    raus:insert(b)
+    i = i + 1
+    if b.t == "Header" and b.level == 2 then
+      local inhalt, notes = pandoc.Blocks({}), pandoc.Blocks({})
+      while i <= n do
+        local c = doc.blocks[i]
+        if (c.t == "Header" and c.level <= 2) or c.t == "HorizontalRule" then break end
+        if ist_notes(c) then notes:insert(c) else inhalt:insert(c) end
+        i = i + 1
+      end
+      local bild = false
+      for _, c in ipairs(inhalt) do if ist_bild(c) then bild = true end end
+      if #inhalt > 0 and not bild
+        and not hat_klasse(b.classes, AUSNAHMEN)
+        and not hat_fragmente(inhalt, listen_inkrementell) then
+        b.classes:insert("dhbw-mitte")
+        raus:insert(pandoc.Div(inhalt, pandoc.Attr("", { "dhbw-inhalt" })))
+      else
+        raus:extend(inhalt)
+      end
+      raus:extend(notes)
+    end
+  end
+  doc.blocks = raus
+  return doc
+end
