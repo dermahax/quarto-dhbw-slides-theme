@@ -10,10 +10,9 @@ Klausuren im selben Stil.
 ## Features
 
 - AI- und Menschenlesbare Slides in markdown Form
-- Im DHBW- Theme
+- Ermöglicht effizienten KI-Zugriff, z.B. durch [AI-Tutor](https://dhbw-folien-tutor.maplelodge16.chatgpt.site/)
 - Rendern als html, pdf oder jupyternotebook möglich
-- Animationen wie oben in Slides und Speakernotes möglich.
-- Zeichnen auf Folie und Tafel, synchron zwischen Speaker-Ansicht und Beamer
+- Zeichnen auf Folie und Tafel, synchron zwischen Speaker-Ansicht und Beamer, gut für Live- und Onlinevorlesungen
 - Übungsblätter als PDF oder Jupyter-Notebook, mit automatischer Lösungsfassung
 - Klausur-Modus nach der DHBW-Klausurvorlage mit Deckblatt und Punktesumme
 
