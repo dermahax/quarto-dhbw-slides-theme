@@ -5,7 +5,7 @@ Klausuren im selben Stil.
 
 [![Beispielfolie: 3D-Modell eines Hochschulgebäudes, aus einem Handyvideo rekonstruiert und auf der Folie frei drehbar](figures/readme-beispielfolie-5s.gif)](https://dermahax.github.io/quarto-dhbw-slides-theme/)
 
-**[▶ Beispielfolie live ausprobieren](https://dermahax.github.io/quarto-dhbw-slides-theme/)**: Modell drehen, zoomen, Video abspielen.
+**[▶ Beispielfolie live ausprobieren](https://dermahax.github.io/quarto-dhbw-slides-theme/)**: Modell interaktiv betrachten, Zeichentools (unten rechts) nutzen
 
 ## Features
 
