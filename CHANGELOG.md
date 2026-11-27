@@ -2,6 +2,25 @@
 
 Versionshistorie des Themes `dhbw-slides`, neueste Version oben.
 
+- **1.20.0** – Die Profil-Datei für `--profile interactive` kommt jetzt von
+  selbst ins Vorlesungsprojekt: `folien-pdf.ts` legt beim Rendern
+  `_quarto-interactive.yml` neben die `_quarto.yml`, wenn sie dort fehlt
+  (eine vorhandene Datei bleibt, wie sie ist). Nach `quarto update` genügt
+  also einmal normales Rendern oder `quarto preview`, dann wirkt der Schalter.
+  Voraussetzung: `folien-pdf.ts` steht unter `post-render` in der `_quarto.yml`.
+- **1.19.0** – Zeichnen per Schalter: `--profile interactive` rendert die
+  Folien mit `embed-resources: false` und `chalkboard: true`, ohne dass das im
+  Kopf des Decks stehen muss (`quarto render 03-kapitel.qmd --profile interactive`,
+  ebenso mit `quarto preview`). Ohne den Schalter bleibt es die eine
+  eingebettete HTML-Datei. Dafür einmal pro Vorlesung die Datei
+  `_extensions/dermahax/dhbw-slides/profile/_quarto-interactive.yml` neben die
+  `_quarto.yml` kopieren (Quarto liest Profile nur aus dem Projektordner, eine
+  Extension kann keins mitbringen).
+- **1.18.0** – Tabellen Zeile für Zeile: `::: {.incremental}` um eine
+  Tabelle macht jede Zeile des Tabellenkörpers zu einem Fragment, die
+  Kopfzeile steht sofort da (bisher wirkte `.incremental` nur auf Listen).
+  Im PDF bleibt es eine Seite mit der ganzen Tabelle (wie 1.14.0). Umgesetzt
+  im Filter `dhbw.lua`, neu rendern genügt.
 - **1.17.0** – Neues Aussehen der Blöcke (`.normal`, `.example`, `.alert`,
   `.info`): weiße Karte mit farbigem Strich links (wie Frametitel und
   Merksatz), feinem grauem Rand und weichem Schatten; der Titel steht in der

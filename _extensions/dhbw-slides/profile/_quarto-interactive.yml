@@ -1,0 +1,9 @@
+# Profil „interactive“ der DHBW-Extension: Folien mit Zeichnen (chalkboard).
+# Einmal neben die _quarto.yml der Vorlesung kopieren, dann
+#   quarto render 03-kapitel.qmd --profile interactive
+#   quarto preview 03-kapitel.qmd --profile interactive
+# Ohne --profile bleibt alles wie gehabt (eine eingebettete HTML-Datei).
+format:
+  dhbw-slides-revealjs:
+    embed-resources: false   # chalkboard verträgt kein embed-resources
+    chalkboard: true

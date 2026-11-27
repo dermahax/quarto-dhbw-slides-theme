@@ -78,9 +78,35 @@ end
 -- .popup: ohne eigene Fragment-Angabe automatisch als Fragment, das erscheint
 -- und beim nächsten Schritt wieder verschwindet. Steht schon .fragment dran
 -- (z. B. .fragment .fade-in), bleibt die eigene Angabe; .static = immer sichtbar.
+-- ::: {.incremental} um eine Tabelle: jede Zeile des Tabellenkörpers wird ein
+-- Fragment, die Kopfzeile steht sofort da (Pandoc kennt .incremental nur für
+-- Listen). Im PDF baut sich die Folie nur auf, also eine Seite (siehe 1.14.0).
+local function zeilen_als_fragmente(el)
+  local gefunden = false
+  el = el:walk({
+    Table = function(tbl)
+      for _, body in ipairs(tbl.bodies) do
+        for _, row in ipairs(body.body) do
+          if not row.attr.classes:includes("fragment") then
+            row.attr.classes:insert("fragment")
+          end
+        end
+      end
+      gefunden = true
+      return tbl
+    end
+  })
+  return el, gefunden
+end
+
 function Div(el)
   if not quarto.doc.is_format("revealjs") then return nil end
   local c = el.classes
+  if c:includes("incremental") then
+    local neu, gefunden = zeilen_als_fragmente(el)
+    if gefunden then return neu end
+    return nil
+  end
   if not c:includes("popup") or c:includes("static") or c:includes("fragment") then
     return nil
   end

@@ -78,12 +78,20 @@ ergänzt dazu:
 - **Vollbild-Knopf** unten links, vor den Chalkboard-Knöpfen (auch ohne
   Chalkboard), für Tablet und Stift ohne Tastatur.
 
+Am einfachsten per Schalter statt im Kopf des Decks: `--profile interactive`
+anhängen (siehe „Bauen“). Der Schalter braucht die Datei `_quarto-interactive.yml`
+neben der `_quarto.yml`; `folien-pdf.ts` legt sie beim ersten Rendern von selbst
+an (Vorlage: `_extensions/dermahax/dhbw-slides/profile/`). Ohne `folien-pdf.ts`
+im Projekt die Vorlage einmal von Hand kopieren. Die Datei enthält genau:
+
 ```yaml
 format:
   dhbw-slides-revealjs:
     embed-resources: false
     chalkboard: true
 ```
+
+Ohne den Schalter bleibt die Ausgabe eine einzelne, eingebettete HTML-Datei.
 
 ## Bauen
 
@@ -93,6 +101,7 @@ format:
 | `quarto render 03-kapitel.qmd`                  | ✓           | ✓          |
 | `quarto preview …` / VS Code Strg+Umschalt+K    | ✓           | –          |
 | `quarto preview … --profile pdf`                | ✓           | ✓          |
+| `… --profile interactive` (render oder preview) | ✓ mit Zeichnen | wie ohne |
 
 **Folien-PDF** (`folien-pdf.ts`): druckt jede `NN-kapitel.html` mit gleichnamiger
 `.qmd` per Chrome oder Edge (headless) nach `NN-kapitel.pdf`. Eine Folie, deren
@@ -215,6 +224,7 @@ Begriff                                          Definitionsliste = Steckbrief
 ::: {.popup .static} … :::                                 Overlay, dauerhaft
 ::: {.notes} … :::                                         Sprechernotizen (Taste S)
 ::: {.incremental} - … :::                                 Liste Punkt für Punkt
+::: {.incremental} | … | :::                               Tabelle Zeile für Zeile (Kopf sofort)
 [rot]{.hl}   [kleiner]{.small}                             Hervorhebung / Kleindruck
 | **BFS** [flachstes Ziel]{.unter} |                      Tabelle: zweite Zeile in der Zelle
 : {.cmp}  (Zeile unter der Tabelle)                      Tabelle schlicht mit Linien statt Kopfband
@@ -253,7 +263,8 @@ _extensions/dhbw-slides/
     uebung.lua, uebung/ Übungsblätter und Klausuren: .loesung, Blöcke, Punkte,
                         Logo, Typst-Vorlage (dhbw-uebung, Klausur-Modus)
     loesungen.ts        Post-Render: Lösungsfassungen der Übungsblätter
-    folien-pdf.ts       Post-Render: Foliensätze als PDF
+    folien-pdf.ts       Post-Render: Foliensätze als PDF, legt _quarto-interactive.yml an
+    profile/            _quarto-interactive.yml zum Kopieren (Zeichnen per Schalter)
     logo.png            Quelle des eingebetteten Logos
     logo-klausur.png    Logo mit Schriftzug für die Kopfzeile der Klausuren
     katex/              KaTeX 0.16.11 inkl. Schriften

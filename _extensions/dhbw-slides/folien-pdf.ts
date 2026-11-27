@@ -12,6 +12,9 @@
 //   quarto preview / VS Code Strg+Umschalt+K                      -> nein
 //   quarto preview … --profile pdf                 erzwingen      -> ja
 //
+// Nebenbei legt es _quarto-interactive.yml im Projektordner an, falls sie fehlt
+// (Vorlage in profile/, siehe unten).
+//
 // Die Vorschau wird am Aufruf des Quarto-Prozesses erkannt, der dieses Skript
 // startet („quarto … preview“). Klappt das nicht, entsteht das PDF.
 //
@@ -60,6 +63,30 @@ function istVorschau(): boolean {
   }
   return /quarto(\.js)?["']?\s+preview(\s|$)/i.test(befehl);
 }
+
+// ---------------------------------------------------------------------------
+// Profil „interactive“ (Zeichnen per --profile interactive) bereitstellen:
+// Quarto liest Profile nur aus dem Projektordner, `quarto add/update` legt dort
+// aber nichts ab. Deshalb kopiert dieses Skript die Vorlage aus profile/ beim
+// Rendern neben die _quarto.yml, falls sie dort noch fehlt. Eine vorhandene
+// Datei bleibt unangetastet.
+try {
+  const projekt = Deno.env.get("QUARTO_PROJECT_DIR") ?? Deno.cwd();
+  const ziel = projekt + sep + "_quarto-interactive.yml";
+  let fehlt = false;
+  try {
+    Deno.statSync(ziel);
+  } catch {
+    fehlt = true;
+  }
+  if (fehlt) {
+    const vorlage = new URL("./profile/_quarto-interactive.yml", import.meta.url);
+    Deno.writeTextFileSync(ziel, Deno.readTextFileSync(vorlage));
+    console.log(
+      "folien-pdf: _quarto-interactive.yml angelegt – ab jetzt `--profile interactive` für Zeichnen.",
+    );
+  }
+} catch { /* nicht wichtig genug, um das Rendern zu stören */ }
 
 const profilPdf = (Deno.env.get("QUARTO_PROFILE") ?? "")
   .split(",")
