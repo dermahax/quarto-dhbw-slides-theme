@@ -1,0 +1,7 @@
+# quarto add/update lädt das GitHub-Archiv des Repos herunter. Die Demo-Seite
+# (docs/, ~50 MB mit 3D-Modell und Video) und die README-Bilder (figures/)
+# braucht dafür niemand, sie bleiben im Repo und auf GitHub Pages, aber nicht
+# im Archiv. So bleibt der Download klein (unter 1 MB).
+docs/ export-ignore
+figures/ export-ignore
+"Claude outputs/" export-ignore
